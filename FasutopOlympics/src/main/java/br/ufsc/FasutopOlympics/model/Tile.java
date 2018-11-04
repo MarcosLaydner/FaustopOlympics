@@ -1,4 +1,4 @@
-package br.ufsc.FaustopOlympics.model;
+package br.ufsc.FasutopOlympics.model;
 
 public class Tile {
 	
