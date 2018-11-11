@@ -9,10 +9,7 @@ public class Tile {
 	private boolean valid;
 	private boolean trapped;
 	
-	public Tile() {
-	}
-	
-	public Tile(int line, int column, TILETYPE tiletype, Question question, boolean valid, boolean trapped) {
+	public Tile(int line, int column) {
 		
 	}
 	
@@ -51,6 +48,11 @@ public class Tile {
 	}
 	public void setTrapped(boolean trapped) {
 		this.trapped = trapped;
+	}
+
+	public void generateQuestion() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
