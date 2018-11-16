@@ -1,0 +1,107 @@
+package br.ufsc.FasutopOlympics.actors;
+
+import javax.swing.JOptionPane;
+
+import br.ufsc.FasutopOlympics.control.Map;
+import br.ufsc.FasutopOlympics.model.MapDto;
+import br.ufsc.inf.leobr.cliente.Jogada;
+import br.ufsc.inf.leobr.cliente.OuvidorProxy;
+import br.ufsc.inf.leobr.cliente.Proxy;
+import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
+import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
+import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
+import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
+import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
+
+public class NetworkActor implements OuvidorProxy {
+
+	private Map map;
+	
+	private Proxy proxy;
+	
+	public NetworkActor(Map map) {
+		super();
+		this.map = map;
+		proxy = Proxy.getInstance();
+	}
+	
+	public String conectar(String nome, String servidor) {
+		try {
+			proxy.conectar(servidor, nome);
+		} catch (JahConectadoException e) {
+			e.printStackTrace();
+			return "You are already connected";
+		} catch (NaoPossivelConectarException e) {
+			e.printStackTrace();
+			return "Could not connect to the server";
+		} catch (ArquivoMultiplayerException e) {
+			e.printStackTrace();
+			return "Could not find configuration file";
+		}
+		return "";
+	}
+	
+	public String iniciarPartidaRede() {
+		try {
+			proxy.iniciarPartida(2);
+		} catch (NaoConectadoException e) {
+			e.printStackTrace();
+			return "You are not connected to the server";
+		}
+		
+		return "";
+	}
+	
+	public void enviarJogada(Map map) {
+		MapDto dto = new MapDto(map.getPlayer1(), map.getPlayer2(), map.getTiles());
+		try {
+			proxy.enviaJogada(dto);
+		} catch (NaoJogandoException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void desconectar() {
+		try {
+			proxy.desconectar();
+		} catch (NaoConectadoException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void iniciarNovaPartida(Integer posicao) {
+		map.start();
+	}
+
+	@Override
+	public void finalizarPartidaComErro(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void receberMensagem(String msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void receberJogada(Jogada jogada) {
+		MapDto dto = (MapDto) jogada;
+		map.receiveMove(dto);
+	}
+
+	@Override
+	public void tratarConexaoPerdida() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tratarPartidaNaoIniciada(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

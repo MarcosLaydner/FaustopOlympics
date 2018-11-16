@@ -2,11 +2,12 @@ package br.ufsc.FasutopOlympics.control;
 
 import java.util.Random;
 
+import br.ufsc.FasutopOlympics.model.MapDto;
 import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 
-public class Map {
+public class Map{
 	
 	private Player player1;
 	private Player player2;
@@ -51,6 +52,8 @@ public class Map {
 		 return rand.nextInt(((size -1)) + 1);
 	}
 	
+	//-----------------------=Getters & Setters=---------------------------
+	
 	public Player getPlayer1() {
 		return player1;
 	}
@@ -83,5 +86,15 @@ public class Map {
 		this.size = size;
 	}
 	
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void receiveMove(MapDto dto) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
