@@ -28,11 +28,23 @@ public class Map {
 					case 0: 
 						novo.setTileType(TILETYPE.QUESTION);
 						novo.generateQuestion();
+						break;
+					case 1:
+						novo.setTileType(TILETYPE.OBSTACLE);
+						novo.setValid(false);
+						break;
+					case 2:
+						novo.setTileType(TILETYPE.BLANK);
+						break;
+					case 3:
+						novo.setTileType(TILETYPE.PRIZE);
+						novo.setPrize();
 				}
+				tiles[y][x] = novo;
 			}
 		}
 	}
-//ddwdwdwdwdwd
+
 	
 	private int randomizer() {
 		 Random rand = new Random();

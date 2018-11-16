@@ -1,5 +1,7 @@
 package br.ufsc.FasutopOlympics.model;
 
+import br.ufsc.FasutopOlympics.utilities.QuestionGenerator;
+
 public class Tile {
 	
 	private int line;
@@ -51,6 +53,11 @@ public class Tile {
 	}
 
 	public void generateQuestion() {
+		Question q = QuestionGenerator.getInstance().generate();
+		this.question = q;
+	}
+
+	public void setPrize() {
 		// TODO Auto-generated method stub
 		
 	}
