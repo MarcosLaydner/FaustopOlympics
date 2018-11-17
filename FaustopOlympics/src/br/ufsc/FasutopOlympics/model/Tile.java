@@ -10,6 +10,7 @@ public class Tile {
 	private Question question;
 	private boolean valid;
 	private boolean trapped;
+	private boolean explored;
 	
 	public Tile(int line, int column) {
 		
@@ -60,6 +61,14 @@ public class Tile {
 	public void setPrize() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean isExplored() {
+		return explored;
+	}
+
+	public void setExplored(boolean explored) {
+		this.explored = explored;
 	}
 	
 }

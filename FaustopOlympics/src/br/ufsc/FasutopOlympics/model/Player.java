@@ -41,6 +41,10 @@ public class Player {
 		this.score = score;
 	}
 	
+	public void addPoints(int points) {
+		this.score += points;
+	}
+	
 	public boolean isWinner() {
 		return winner;
 	}

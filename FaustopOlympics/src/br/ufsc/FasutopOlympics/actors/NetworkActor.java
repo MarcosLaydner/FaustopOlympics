@@ -53,9 +53,10 @@ public class NetworkActor implements OuvidorProxy {
 	}
 	
 	public void enviarJogada(Map map) {
-		MapDto dto = new MapDto(map.getPlayer1(), map.getPlayer2(), map.getTiles());
+		MapDto dto = new MapDto(map.getRemotePlayer(), map.getLocalPlayer(), map.getTiles());
 		try {
 			proxy.enviaJogada(dto);
+			myTurn = false;
 		} catch (NaoJogandoException e) {
 			e.printStackTrace();
 		}
@@ -73,10 +74,12 @@ public class NetworkActor implements OuvidorProxy {
 	public void iniciarNovaPartida(Integer posicao) {
 		if (posicao == 1) {
 			setMyTurn(true);
-			map.setPlayer1(new Player(posicao));
-		} else if( posicao == 2){
+			map.setLocalPlayer(new Player(1));
+			map.setRemotePlayer(new Player(2));
+		} else if (posicao == 2) {
 			setMyTurn(false);
-			map.setPlayer2(new Player(posicao));
+			map.setLocalPlayer(new Player(2));
+			map.setRemotePlayer(new Player(1));
 		}
 		
 	}
@@ -96,6 +99,7 @@ public class NetworkActor implements OuvidorProxy {
 	@Override
 	public void receberJogada(Jogada jogada) {
 		MapDto dto = (MapDto) jogada;
+		myTurn = true;
 		map.receiveMove(dto);
 	}
 
