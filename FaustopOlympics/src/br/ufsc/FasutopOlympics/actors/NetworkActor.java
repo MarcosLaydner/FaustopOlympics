@@ -1,9 +1,8 @@
 package br.ufsc.FasutopOlympics.actors;
 
-import javax.swing.JOptionPane;
-
 import br.ufsc.FasutopOlympics.control.Map;
 import br.ufsc.FasutopOlympics.model.MapDto;
+import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
 import br.ufsc.inf.leobr.cliente.Proxy;
@@ -16,13 +15,14 @@ import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 public class NetworkActor implements OuvidorProxy {
 
 	private Map map;
-	
+	private boolean myTurn = false;
 	private Proxy proxy;
 	
 	public NetworkActor(Map map) {
 		super();
 		this.map = map;
 		proxy = Proxy.getInstance();
+		proxy.addOuvinte(this);
 	}
 	
 	public String conectar(String nome, String servidor) {
@@ -71,7 +71,14 @@ public class NetworkActor implements OuvidorProxy {
 	
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
-		map.start();
+		if (posicao == 1) {
+			setMyTurn(true);
+			map.setPlayer1(new Player(posicao));
+		} else if( posicao == 2){
+			setMyTurn(false);
+			map.setPlayer2(new Player(posicao));
+		}
+		
 	}
 
 	@Override
@@ -102,6 +109,14 @@ public class NetworkActor implements OuvidorProxy {
 	public void tratarPartidaNaoIniciada(String message) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean isMyTurn() {
+		return myTurn;
+	}
+
+	public void setMyTurn(boolean myTurn) {
+		this.myTurn = myTurn;
 	}
 
 }

@@ -1,7 +1,8 @@
 package br.ufsc.FasutopOlympics.control;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
+import br.ufsc.FasutopOlympics.actors.NetworkActor;
 import br.ufsc.FasutopOlympics.model.MapDto;
 import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
@@ -13,44 +14,94 @@ public class Map{
 	private Player player2;
 	private Tile[][] tiles;
 	private int size;
+	private NetworkActor nActor;
 	
 	public Map() {
+		nActor = new NetworkActor(this);
 		this.setSize(6);
 		tiles = new Tile[size][size];
 	}
 	
-	public void generateTiles(){
+	private void generateTiles(){
 		for(int y = 0; y > size; y++) {
 			for(int x = 0; x > size; x++) {
 				
 				Tile novo = new Tile(y, x);
-				int def = randomizer();
+				int def = ThreadLocalRandom.current().nextInt(1,5);
 				switch (def) {
-					case 0: 
+					case 1: 
 						novo.setTileType(TILETYPE.QUESTION);
 						novo.generateQuestion();
 						break;
-					case 1:
+					case 2:
 						novo.setTileType(TILETYPE.OBSTACLE);
 						novo.setValid(false);
 						break;
-					case 2:
+					case 3:
 						novo.setTileType(TILETYPE.BLANK);
 						break;
-					case 3:
+					case 4:
 						novo.setTileType(TILETYPE.PRIZE);
 						novo.setPrize();
 				}
 				tiles[y][x] = novo;
 			}
 		}
+		
+	}
+	
+	public void connect() {
+		nActor.conectar(player1.getName(), "localhost");
+	}
+	
+	public void start() {
+		nActor.iniciarPartidaRede();
+	}
+	
+	public void prepareMatch() {
+		generateTiles();
+		placePlayers();
+		//TODO updateFront?
+	}
+	
+	private int randomCoordinates() {
+		return ThreadLocalRandom.current().nextInt(0,6);
 	}
 
-	
-	private int randomizer() {
-		 Random rand = new Random();
-		 return rand.nextInt(((size -1)) + 1);
+	private void placePlayers() {
+		player1.setY(randomCoordinates());
+		player1.setX(randomCoordinates());
+		//TODO send to front, probably check to see if it's valid
+		player2.setY(randomCoordinates());
+		player2.setX(randomCoordinates());
+		//TODO same thing
+		
 	}
+
+	public boolean sendMove(int y, int x) {
+		if (nActor.isMyTurn()) {
+			boolean ok = move(y, x);
+			if (ok) {
+				nActor.enviarJogada(this);
+			}
+			return ok;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean move(int y, int x) {
+		// TODO implement move logic
+		return false;
+	}
+
+	public void receiveMove(MapDto dto) {
+		this.setPlayer1(dto.getPlayer1());
+		this.setPlayer2(dto.getPlayer2());
+		this.setTiles(dto.getTiles());
+		//TODO updateFront?
+	}
+
 	
 	//-----------------------=Getters & Setters=---------------------------
 	
@@ -85,16 +136,5 @@ public class Map{
 	public void setSize(int size) {
 		this.size = size;
 	}
-	
-	public void start() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void receiveMove(MapDto dto) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 }
