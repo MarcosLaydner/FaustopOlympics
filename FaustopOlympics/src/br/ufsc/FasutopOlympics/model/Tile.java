@@ -59,8 +59,11 @@ public class Tile {
 	}
 
 	public void setPrize() {
-		// TODO Auto-generated method stub
-		
+		if(Math.random() < 0.5) {
+		    this.tileType = TILETYPE.PRIZE_BONUS;
+		} else {
+			this.tileType = TILETYPE.PRIZE_TRAP;
+		}
 	}
 
 	public boolean isExplored() {

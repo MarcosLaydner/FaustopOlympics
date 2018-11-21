@@ -7,12 +7,14 @@ public class MapDto implements Jogada {
 	private Player localPlayer;
 	private Player remotePlayer;
 	private Tile[][] tiles;
+	private boolean remotePassed;
 	
-	public MapDto(Player player1, Player player2, Tile[][] tiles) {
+	public MapDto(Player player1, Player player2, Tile[][] tiles, boolean remotePassed) {
 		super();
 		this.localPlayer = player1;
 		this.remotePlayer = player2;
 		this.tiles = tiles;
+		this.setRemotePassed(remotePassed);
 	}
 	
 	public Player getPlayer1() {
@@ -32,5 +34,13 @@ public class MapDto implements Jogada {
 	}
 	public void setTiles(Tile[][] tiles) {
 		this.tiles = tiles;
+	}
+
+	public boolean isRemotePassed() {
+		return remotePassed;
+	}
+
+	public void setRemotePassed(boolean remotePassed) {
+		this.remotePassed = remotePassed;
 	}
 }

@@ -17,11 +17,14 @@ public class Map{
 	private int size;
 	private NetworkActor nActor;
 	private int counter;
+	private boolean remotePassed;
 	
 	public Map() {
 		nActor = new NetworkActor(this);
 		this.setSize(6);
 		tiles = new Tile[size][size];
+		this.remotePassed = false;
+		
 	}
 	
 	private void generateTiles(){
@@ -43,7 +46,6 @@ public class Map{
 						novo.setTileType(TILETYPE.BLANK);
 						break;
 					case 4:
-						novo.setTileType(TILETYPE.PRIZE);
 						novo.setPrize();
 				}
 				tiles[y][x] = novo;
@@ -133,8 +135,18 @@ public class Map{
 	//Not sure about this one
 	public void checkQuestion(String answer, Question question) {
 		if (answer.equals(question.getRightopt())) {
-			
+			localPlayer.addPoints(50);
+		} else {
+			localPlayer.addPoints(-25);
 		}
+	}
+	
+	public void pass() {
+		//TODO this one will be hard. Or will it? - think i already got it
+		// my ideia is: have a boolean "passed" here in map, so you can pass this information through the server
+		this.remotePassed = true;
+		nActor.enviarJogada(this);
+		this.remotePassed = false;
 	}
 	
 	public void trapTile(int y, int x) {
@@ -196,6 +208,14 @@ public class Map{
 
 	public void setCounter(int counter) {
 		this.counter = counter;
+	}
+
+	public boolean isRemotePassed() {
+		return remotePassed;
+	}
+
+	public void setRemotePassed(boolean remotePassed) {
+		this.remotePassed = remotePassed;
 	}
 	
 }
