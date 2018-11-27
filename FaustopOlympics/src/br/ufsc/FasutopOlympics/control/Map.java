@@ -2,15 +2,20 @@ package br.ufsc.FasutopOlympics.control;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.swing.JButton;
+
 import br.ufsc.FasutopOlympics.actors.NetworkActor;
 import br.ufsc.FasutopOlympics.model.MapDto;
 import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.FasutopOlympics.model.Question;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
+import br.ufsc.FaustopOlympics.view.GameScreen;
+import br.ufsc.FaustopOlympics.view.MainScreen;
 
 public class Map{
 	
+	private static final Map instance = new Map();
 	private Player localPlayer;
 	private Player remotePlayer;
 	private Tile[][] tiles;
@@ -18,13 +23,23 @@ public class Map{
 	private NetworkActor nActor;
 	private int counter;
 	private boolean remotePassed;
+	private MainScreen mainScreen;
+	private GameScreen gameScreen;
 	
 	public Map() {
 		nActor = new NetworkActor(this);
 		this.setSize(6);
 		tiles = new Tile[size][size];
 		this.remotePassed = false;
+		mainScreen = new MainScreen();
+		gameScreen = new GameScreen();
 		
+	}
+	public void showMainMenu() {
+		mainScreen.setVisible(true);
+	}
+	public void showGameScreen() {
+		gameScreen.setVisible(true);
 	}
 	
 	private void generateTiles(){
@@ -53,7 +68,6 @@ public class Map{
 		}
 		counter = size*size;
 	}
-	
 	public void connect(String name) {
 		nActor.conectar(name, "localhost");
 	}
@@ -217,5 +231,19 @@ public class Map{
 	public void setRemotePassed(boolean remotePassed) {
 		this.remotePassed = remotePassed;
 	}
+
+	public static Map getInstance() {
+		// TODO Auto-generated method stub
+		return instance;
+	}
+
+	public boolean treatMove(int j, int k) {
+		// TODO Auto-generated method stub
+		return move(j, k);
+	}
+
+	
+
+	
 	
 }
