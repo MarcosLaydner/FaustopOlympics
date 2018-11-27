@@ -8,8 +8,8 @@ import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.FasutopOlympics.model.Question;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
-import br.ufsc.FaustopOlympics.view.GameScreen;
-import br.ufsc.FaustopOlympics.view.MainScreen;
+import br.ufsc.FasutopOlympics.view.GameScreen;
+import br.ufsc.FasutopOlympics.view.MainScreen;
 
 public class Map{
 	
