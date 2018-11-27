@@ -111,6 +111,7 @@ public class GameScreen extends JFrame {
 			repaint();
 		}
 	};
+	private JPanel panel;
 
 	/**
 	 * Create the frame.
@@ -121,9 +122,19 @@ public class GameScreen extends JFrame {
 		setPreferredSize(new Dimension(677, 570));
 		getContentPane().setLayout(null);
 		
+		panel = new JPanel();
+		panel.setBounds(0, 0, 65, 25);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.setBounds(0, 0, 65, 25);
-		getContentPane().add(btnMenu);
+		panel.add(btnMenu);
+		btnMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//open menu
+			}
+		});
 		JLabel lblPlayer = new JLabel("Player");
 		lblPlayer.setBounds(90, 0, 165, 25);
 		getContentPane().add(lblPlayer);
@@ -188,54 +199,56 @@ public class GameScreen extends JFrame {
 		int r5 = 250;
 		int r6 = 290;
 		
-		pos1.setBounds(l1, r1, 40, 40);
-		pos2.setBounds(l2, r1, 40, 40);
-		pos3.setBounds(l3, r1, 40, 40);
-		pos4.setBounds(l4, r1, 40, 40);
-		pos5.setBounds(l5, r1, 40, 40);
-		pos6.setBounds(l6, r1, 40, 40);
+		pos1.setBounds(63, 88, 40, 40);
+		pos2.setBounds(103, 88, 40, 40);
+		pos3.setBounds(143, 88, 40, 40);
+		pos4.setBounds(183, 88, 40, 40);
+		pos5.setBounds(223, 88, 40, 40);
+		pos6.setBounds(263, 88, 40, 40);
 
-		pos7.setBounds(l1, r2, 40, 40);
-		pos8.setBounds(l2, r2, 40, 40);
-		pos9.setBounds(l3, r2, 40, 40);
-		pos10.setBounds(l4, r2, 40, 40);
-		pos11.setBounds(l5, r2, 40, 40);
-		pos12.setBounds(l6, r2, 40, 40);
+		pos7.setBounds(63, 128, 40, 40);
+		pos8.setBounds(103, 128, 40, 40);
+		pos9.setBounds(143, 128, 40, 40);
+		pos10.setBounds(183, 128, 40, 40);
+		pos11.setBounds(223, 128, 40, 40);
+		pos12.setBounds(263, 128, 40, 40);
 
-		pos13.setBounds(l1, r3, 40, 40);
-		pos14.setBounds(l2, r3, 40, 40);
-		pos15.setBounds(l3, r3, 40, 40);
-		pos16.setBounds(l4, r3, 40, 40);
-		pos17.setBounds(l5, r3, 40, 40);
-		pos18.setBounds(l6, r3, 40, 40);
+		pos13.setBounds(63, 168, 40, 40);
+		pos14.setBounds(103, 168, 40, 40);
+		pos15.setBounds(143, 168, 40, 40);
+		pos16.setBounds(183, 168, 40, 40);
+		pos17.setBounds(223, 168, 40, 40);
+		pos18.setBounds(263, 168, 40, 40);
 
-		pos19.setBounds(l1, r4, 40, 40);
-		pos20.setBounds(l2, r4, 40, 40);
-		pos21.setBounds(l3, r4, 40, 40);
-		pos22.setBounds(l4, r4, 40, 40);
-		pos23.setBounds(l5, r4, 40, 40);
-		pos24.setBounds(l6, r4, 40, 40);
+		pos19.setBounds(63, 208, 40, 40);
+		pos20.setBounds(103, 208, 40, 40);
+		pos21.setBounds(143, 208, 40, 40);
+		pos22.setBounds(183, 208, 40, 40);
+		pos23.setBounds(223, 208, 40, 40);
+		pos24.setBounds(263, 208, 40, 40);
 
-		pos25.setBounds(l1, r5, 40, 40);
-		pos26.setBounds(l2, r5, 40, 40);
-		pos27.setBounds(l3, r5, 40, 40);
-		pos28.setBounds(l4, r5, 40, 40);
-		pos29.setBounds(l5, r5, 40, 40);
-		pos30.setBounds(l6, r5, 40, 40);
+		pos25.setBounds(63, 248, 40, 40);
+		pos26.setBounds(103, 248, 40, 40);
+		pos27.setBounds(143, 248, 40, 40);
+		pos28.setBounds(183, 248, 40, 40);
+		pos29.setBounds(223, 248, 40, 40);
+		pos30.setBounds(263, 248, 40, 40);
 		
-		pos31.setBounds(l1, r6, 40, 40);
-		pos32.setBounds(l2, r6, 40, 40);
-		pos33.setBounds(l3, r6, 40, 40);
-		pos34.setBounds(l4, r6, 40, 40);
-		pos35.setBounds(l5, r6, 40, 40);
-		pos36.setBounds(l6, r6, 40, 40);
+		pos31.setBounds(63, 288, 40, 40);
+		pos32.setBounds(103, 288, 40, 40);
+		pos33.setBounds(143, 288, 40, 40);
+		pos34.setBounds(183, 288, 40, 40);
+		pos35.setBounds(223, 288, 40, 40);
+		pos36.setBounds(263, 288, 40, 40);
 		
 		for(JButton bt : getButtons()) {
-			Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
-			ImageIcon imageIcon = new ImageIcon(iconLogo);
-			bt.setIcon(imageIcon);
-			pack();
-			repaint();
+			if(bt.getText() != null) {
+				Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+				ImageIcon imageIcon = new ImageIcon(iconLogo);
+				bt.setIcon(imageIcon);
+				pack();
+				repaint();
+			}
 		}
 
 		
