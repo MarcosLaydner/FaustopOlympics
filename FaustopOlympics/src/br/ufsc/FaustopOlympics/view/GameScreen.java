@@ -258,6 +258,15 @@ public class GameScreen extends JFrame {
 		mntmExit.setBackground(Color.BLACK);
 		mnMenu.add(mntmExit);
 		
+		//setting initial(unknown) tiles
+		Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon imageIcon = new ImageIcon(iconLogo);
+		for(JButton button : getButtons()) {
+			button.setIcon(imageIcon);
+			pack();
+			repaint();
+		}
+		
 		
 		
 

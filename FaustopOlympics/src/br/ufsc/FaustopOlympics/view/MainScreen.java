@@ -75,6 +75,7 @@ public class MainScreen extends JFrame {
 		btnStart.setForeground(Color.GREEN);
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Map.getInstance().start();
 			}
 		});
 		btnStart.setBounds(164, 86, 108, 23);
