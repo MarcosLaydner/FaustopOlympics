@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="netGames/ngnrtFramework.jar"/>
 	<classpathentry kind="lib" path="resources/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="netGames"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
