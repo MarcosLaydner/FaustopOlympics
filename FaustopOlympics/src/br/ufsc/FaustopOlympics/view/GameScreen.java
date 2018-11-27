@@ -28,6 +28,13 @@ import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
+import java.awt.Color;
+import javax.swing.JMenu;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JMenuBar;
 
 public class GameScreen extends JFrame {
 	
@@ -74,18 +81,7 @@ public class GameScreen extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GameScreen frame = new GameScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 	//where the stuff is done.
 	private ActionListener l = new ActionListener() {
 		public void actionPerformed(final ActionEvent e) {
@@ -101,46 +97,42 @@ public class GameScreen extends JFrame {
 					if(!Map.getInstance().treatMove(j,k)) {
 						informMessage("Could not move to selected Tile!");
 						
+					}else {
+						tileFill(btList.get(i), Map.getInstance().getTiles()[j][k].getTileType());
+						repaint();
 					}
 					
-					tileFill(btList.get(i), Map.getInstance().getTiles()[j][k].getTileType());
-					repaint();
 				}
 			}
 				
 			repaint();
 		}
 	};
-	private JPanel panel;
+	private JMenuBar menuBar;
+	private JMenu mnMenu;
+	private JMenuItem mntmReconnect;
+	private JMenuItem mntmDisconnect;
+	private JMenuItem mntmRestart;
+	private JMenuItem mntmReturn;
+	private JMenuItem mntmExit;
 
 	/**
 	 * Create the frame.
 	 */
 	public GameScreen() {
+		setPreferredSize(new Dimension(550, 550));
+		getContentPane().setBackground(Color.DARK_GRAY);
 		addAction();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setPreferredSize(new Dimension(677, 570));
 		getContentPane().setLayout(null);
-		
-		panel = new JPanel();
-		panel.setBounds(0, 0, 65, 25);
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JButton btnMenu = new JButton("Menu");
-		btnMenu.setBounds(0, 0, 65, 25);
-		panel.add(btnMenu);
-		btnMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//open menu
-			}
-		});
 		JLabel lblPlayer = new JLabel("Player");
-		lblPlayer.setBounds(90, 0, 165, 25);
+		lblPlayer.setForeground(Color.GREEN);
+		lblPlayer.setBounds(114, 33, 165, 25);
 		getContentPane().add(lblPlayer);
 		
 		JLabel lblPoints = new JLabel("Points");
-		lblPoints.setBounds(278, 0, 100, 25);
+		lblPoints.setForeground(Color.GREEN);
+		lblPoints.setBounds(302, 33, 100, 25);
 		getContentPane().add(lblPoints);
 		
 		pos1 = new JButton();
@@ -186,70 +178,88 @@ public class GameScreen extends JFrame {
 		getContentPane().add(pos26);getContentPane().add(pos27);getContentPane().add(pos28);getContentPane().add(pos29);getContentPane().add(pos30);getContentPane().add(pos31);getContentPane().add(pos32);getContentPane().add(pos33);
 		getContentPane().add(pos34);getContentPane().add(pos35);getContentPane().add(pos36);
 		
-		int l1 = 135;
-		int l2 = 175;
-		int l3 = 215;
-		int l4 = 255;
-		int l5 = 295;
-		int l6 = 335;
-		int r1 = 90;
-		int r2 = 130;
-		int r3 = 170;
-		int r4 = 210;
-		int r5 = 250;
-		int r6 = 290;
 		
-		pos1.setBounds(63, 88, 40, 40);
-		pos2.setBounds(103, 88, 40, 40);
-		pos3.setBounds(143, 88, 40, 40);
-		pos4.setBounds(183, 88, 40, 40);
-		pos5.setBounds(223, 88, 40, 40);
-		pos6.setBounds(263, 88, 40, 40);
-
-		pos7.setBounds(63, 128, 40, 40);
-		pos8.setBounds(103, 128, 40, 40);
-		pos9.setBounds(143, 128, 40, 40);
-		pos10.setBounds(183, 128, 40, 40);
-		pos11.setBounds(223, 128, 40, 40);
-		pos12.setBounds(263, 128, 40, 40);
-
-		pos13.setBounds(63, 168, 40, 40);
-		pos14.setBounds(103, 168, 40, 40);
-		pos15.setBounds(143, 168, 40, 40);
-		pos16.setBounds(183, 168, 40, 40);
-		pos17.setBounds(223, 168, 40, 40);
-		pos18.setBounds(263, 168, 40, 40);
-
-		pos19.setBounds(63, 208, 40, 40);
-		pos20.setBounds(103, 208, 40, 40);
-		pos21.setBounds(143, 208, 40, 40);
-		pos22.setBounds(183, 208, 40, 40);
-		pos23.setBounds(223, 208, 40, 40);
-		pos24.setBounds(263, 208, 40, 40);
-
-		pos25.setBounds(63, 248, 40, 40);
-		pos26.setBounds(103, 248, 40, 40);
-		pos27.setBounds(143, 248, 40, 40);
-		pos28.setBounds(183, 248, 40, 40);
-		pos29.setBounds(223, 248, 40, 40);
-		pos30.setBounds(263, 248, 40, 40);
 		
-		pos31.setBounds(63, 288, 40, 40);
-		pos32.setBounds(103, 288, 40, 40);
-		pos33.setBounds(143, 288, 40, 40);
-		pos34.setBounds(183, 288, 40, 40);
-		pos35.setBounds(223, 288, 40, 40);
-		pos36.setBounds(263, 288, 40, 40);
+		pos1.setBounds(100, 80, 50, 50);
+		pos2.setBounds(151, 80, 50, 50);
+		pos3.setBounds(201, 80, 50, 50);
+		pos4.setBounds(251, 80, 50, 50);
+		pos5.setBounds(301, 80, 50, 50);
+		pos6.setBounds(352, 80, 50, 50);
+
+		pos7.setBounds(100, 131, 50, 50);
+		pos8.setBounds(151, 131, 50, 50);
+		pos9.setBounds(201, 131, 50, 50);
+		pos10.setBounds(251, 131, 50, 50);
+		pos11.setBounds(301, 131, 50, 50);
+		pos12.setBounds(352, 131, 50, 50);
+
+		pos13.setBounds(100, 181, 50, 50);
+		pos14.setBounds(151, 181, 50, 50);
+		pos15.setBounds(201, 181, 50, 50);
+		pos16.setBounds(251, 181, 50, 50);
+		pos17.setBounds(301, 181, 50, 50);
+		pos18.setBounds(352, 181, 50, 50);
+
+		pos19.setBounds(100, 232, 50, 50);
+		pos20.setBounds(151, 232, 50, 50);
+		pos21.setBounds(201, 232, 50, 50);
+		pos22.setBounds(251, 232, 50, 50);
+		pos23.setBounds(301, 232, 50, 50);
+		pos24.setBounds(352, 232, 50, 50);
+
+		pos25.setBounds(100, 283, 50, 50);
+		pos26.setBounds(151, 283, 50, 50);
+		pos27.setBounds(201, 283, 50, 50);
+		pos28.setBounds(251, 283, 50, 50);
+		pos29.setBounds(301, 283, 50, 50);
+		pos30.setBounds(352, 283, 50, 50);
 		
-		for(JButton bt : getButtons()) {
-			if(bt.getText() != null) {
-				Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
-				ImageIcon imageIcon = new ImageIcon(iconLogo);
-				bt.setIcon(imageIcon);
-				pack();
-				repaint();
-			}
-		}
+		pos31.setBounds(100, 334, 50, 50);
+		pos32.setBounds(151, 334, 50, 50);
+		pos33.setBounds(201, 334, 50, 50);
+		pos34.setBounds(251, 334, 50, 50);
+		pos35.setBounds(301, 334, 50, 50);
+		pos36.setBounds(352, 334, 50, 50);
+		
+		menuBar = new JMenuBar();
+		menuBar.setForeground(Color.CYAN);
+		menuBar.setBackground(Color.BLACK);
+		menuBar.setBounds(0, 0, 50, 21);
+		getContentPane().add(menuBar);
+		
+		mnMenu = new JMenu("Menu");
+		mnMenu.setForeground(Color.CYAN);
+		mnMenu.setBackground(Color.BLACK);
+		menuBar.add(mnMenu);
+		
+		mntmReconnect = new JMenuItem("Reconnect");
+		mntmReconnect.setForeground(Color.CYAN);
+		mntmReconnect.setBackground(Color.BLACK);
+		mnMenu.add(mntmReconnect);
+		
+		mntmDisconnect = new JMenuItem("Disconnect");
+		mntmDisconnect.setForeground(Color.CYAN);
+		mntmDisconnect.setBackground(Color.BLACK);
+		mnMenu.add(mntmDisconnect);
+		
+		mntmRestart = new JMenuItem("Restart");
+		mntmRestart.setForeground(Color.CYAN);
+		mntmRestart.setBackground(Color.BLACK);
+		mnMenu.add(mntmRestart);
+		
+		mntmReturn = new JMenuItem("Return");
+		mntmReturn.setForeground(Color.CYAN);
+		mntmReturn.setBackground(Color.BLACK);
+		mnMenu.add(mntmReturn);
+		
+		mntmExit = new JMenuItem("Exit");
+		mntmExit.setForeground(Color.CYAN);
+		mntmExit.setBackground(Color.BLACK);
+		mnMenu.add(mntmExit);
+		
+		
+		
 
 		
 	}
@@ -307,5 +317,21 @@ public class GameScreen extends JFrame {
 	public void informMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Aviso", JOptionPane.PLAIN_MESSAGE);
 	}
-
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 }

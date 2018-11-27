@@ -67,7 +67,7 @@ public class MainScreen extends JFrame {
 			}
 		});
 		btnConnect.setBackground(Color.BLACK);
-		btnConnect.setBounds(164, 52, 97, 23);
+		btnConnect.setBounds(164, 52, 108, 23);
 		contentPane.add(btnConnect);
 		
 		JButton btnStart = new JButton("Start");
@@ -77,7 +77,7 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnStart.setBounds(164, 86, 97, 23);
+		btnStart.setBounds(164, 86, 108, 23);
 		contentPane.add(btnStart);
 		
 		JButton btnDisconnect = new JButton("Disconnect");
@@ -87,7 +87,7 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnDisconnect.setBounds(164, 120, 97, 23);
+		btnDisconnect.setBounds(164, 120, 108, 23);
 		contentPane.add(btnDisconnect);
 		
 		JButton btnExit = new JButton("Exit");
@@ -97,7 +97,7 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnExit.setBounds(164, 154, 97, 23);
+		btnExit.setBounds(164, 154, 108, 23);
 		contentPane.add(btnExit);
 		
 		JButton btnGamescr = new JButton("GameScr");
