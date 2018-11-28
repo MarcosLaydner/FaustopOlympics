@@ -50,7 +50,7 @@ public class NetworkActor implements OuvidorProxy {
 	}
 	
 	public void enviarJogada(Map map) {
-		MapDto dto = new MapDto(map.getRemotePlayer(), map.getLocalPlayer(), map.getTiles(), map.isRemotePassed());
+		MapDto dto = new MapDto(map.getRemotePlayer(), map.getLocalPlayer(), map.getTiles(), map.isRemotePassed(), map.getGameScreen());
 		try {
 			proxy.enviaJogada(dto);
 			myTurn = false;
@@ -70,15 +70,11 @@ public class NetworkActor implements OuvidorProxy {
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
 		System.out.println("Iniciando nova partida com o id de jogador " + posicao);
-		if (posicao == 1) {
 			setMyTurn(true);
 			map.setLocalPlayer(new Player(1));
 			map.setRemotePlayer(new Player(2));
-		} else if (posicao == 2) {
-			setMyTurn(false);
-			map.setLocalPlayer(new Player(2));
-			map.setRemotePlayer(new Player(1));
-		}
+			map.prepareMatch();
+		
 		
 	}
 
