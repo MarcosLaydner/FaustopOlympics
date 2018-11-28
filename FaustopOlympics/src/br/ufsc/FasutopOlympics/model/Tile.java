@@ -8,7 +8,7 @@ public class Tile {
 	private int column;
 	private TILETYPE tileType;
 	private Question question;
-	private boolean valid;
+	private boolean valid = true;
 	private boolean trapped;
 	private boolean explored;
 	

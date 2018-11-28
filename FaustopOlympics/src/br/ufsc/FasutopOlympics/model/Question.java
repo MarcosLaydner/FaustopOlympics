@@ -9,6 +9,10 @@ public class Question {
 	private String opt4;
 	private String rightOpt;
 	
+	public Question () {
+		
+	}
+	
 	public String getQuestion() {
 		return question;
 	}

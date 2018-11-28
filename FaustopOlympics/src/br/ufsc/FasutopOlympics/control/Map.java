@@ -17,7 +17,6 @@ import br.ufsc.FasutopOlympics.view.MainScreen;
 
 public class Map{
 	
-	private static final Map instance = new Map();
 	private Player localPlayer;
 	private Player remotePlayer;
 	private Tile[][] tiles;
@@ -27,7 +26,8 @@ public class Map{
 	private boolean remotePassed;
 	private MainScreen mainScreen;
 	private GameScreen gameScreen;
-	
+	private static final Map instance = new Map();
+
 	public Map() {
 		nActor = new NetworkActor(this);
 		this.setSize(6);
@@ -35,7 +35,6 @@ public class Map{
 		this.remotePassed = false;
 		mainScreen = new MainScreen();
 		this.localPlayer = new Player();
-		generateTiles();
 	}
 	public void showMainMenu() {
 		mainScreen.setVisible(true);
@@ -45,11 +44,11 @@ public class Map{
 	}
 	
 	private void generateTiles(){
-		for(int y = 0; y > size; y++) {
-			for(int x = 0; x > size; x++) {
+		for(int y = 0; y < size; y++) {
+			for(int x = 0; x < size; x++) {
 				
 				Tile novo = new Tile(y, x);
-				int def = ThreadLocalRandom.current().nextInt(1,5);
+				int def = ThreadLocalRandom.current().nextInt(1,7);
 				switch (def) {
 					case 1: 
 						novo.setTileType(TILETYPE.QUESTION);
@@ -89,14 +88,15 @@ public class Map{
 	
 	public void prepareMatch() {
 		placePlayers();
+		generateTiles();
 		//TODO updateFront?
 		gameScreen.setVisible(true);
 		sendMove(localPlayer.getY(), localPlayer.getX());
 	}
 
 	private void placePlayers() {
-		localPlayer.setY(1);
-		localPlayer.setX(1);
+		localPlayer.setY(0);
+		localPlayer.setX(0);
 		//TODO send to front, probably check to see if it's valid
 		remotePlayer.setY(6);
 		remotePlayer.setX(6);
@@ -130,7 +130,7 @@ public class Map{
 					break;
 				case PRIZE_TRAP:
 					gameScreen.trapmode();
-					gameScreen.informMessage("Please select where the trap will be placed");
+					gameScreen.informMessage("You received a trap! Please select where the trap will be placed");
 					break;
 				case PRIZE_BONUS:
 					localPlayer.addPoints(50);//seila quantos pontos bixo

@@ -81,6 +81,7 @@ public class GameScreen extends JFrame {
 	private JButton pos35;
 	private JButton pos36;
 	private JPanel contentPane;
+	private JButton[] butts;
 	
 	private boolean trapmode = false;
 	/**
@@ -107,6 +108,7 @@ public class GameScreen extends JFrame {
 		trapmode = true;
 	}
 	public GameScreen(Player localPlayer) {
+		
 		setPreferredSize(new Dimension(550, 550));
 		getContentPane().setBackground(Color.DARK_GRAY);
 		addAction();
@@ -345,7 +347,7 @@ public class GameScreen extends JFrame {
 		getContentPane().add(pos26);getContentPane().add(pos27);getContentPane().add(pos28);getContentPane().add(pos29);getContentPane().add(pos30);getContentPane().add(pos31);getContentPane().add(pos32);getContentPane().add(pos33);
 		getContentPane().add(pos34);getContentPane().add(pos35);getContentPane().add(pos36);
 		
-		
+		butts = new JButton[] {pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,pos10,pos11,pos12,pos13,pos14,pos15,pos16,pos17,pos18,pos19,pos20,pos21,pos22,pos23,pos24,pos25,pos26,pos27,pos28,pos29,pos30,pos31,pos32,pos33,pos34,pos35,pos36};
 		
 		pos1.setBounds(100, 80, 50, 50);
 		pos2.setBounds(151, 80, 50, 50);
@@ -402,6 +404,7 @@ public class GameScreen extends JFrame {
 		mntmReconnect = new JMenuItem("Reconnect");
 		mntmReconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 		mntmReconnect.setForeground(Color.CYAN);
@@ -441,12 +444,13 @@ public class GameScreen extends JFrame {
 		//setting initial(unknown) tiles
 		Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon imageIcon = new ImageIcon(iconLogo);
-		for(JButton button : getButtons()) {
+		for(JButton button : butts) {
 			button.setIcon(imageIcon);
 			pack();
 			repaint();
 		}
-		
+		playerTileFill(pos1);
+		playerTileFill(pos36);
 		
 		
 
@@ -455,14 +459,17 @@ public class GameScreen extends JFrame {
 	protected void buttonAction(JButton bt, int i, int j) {
 		Player localp = Map.getInstance().getLocalPlayer();
 		Tile[][] tiles = Map.getInstance().getTiles();
+		int playerx = localp.getX();
+		int playery = localp.getY();
 		if (!trapmode) {
-			if(!Map.getInstance().treatMove(i,j)) {
+			if(!Map.getInstance().sendMove(i,j)) {
 				informMessage("Could not move to selected Tile!");
 						
 				}else {
 					playerTileFill(bt);
-					tileFill(getButtons().get(matrixToLine(localp.getX(), localp.getY())), tiles[localp.getX()][localp.getY()].getTileType()) ;
+					tileFill(butts[matrixToLine(playerx, playery)], tiles[playerx][playery].getTileType()) ;
 					repaint();
+					
 				}
 					
 		}else {
@@ -491,17 +498,7 @@ public class GameScreen extends JFrame {
 	public int matrixToLine(int l, int r) {
 		return l + (r*6);
 	}
-	public List<JButton> getButtons() {
-		List<JButton> buttons = new ArrayList<>();
-		Component[] components = getContentPane().getComponents();
-		for(Component comp : components) {
-			if(comp instanceof JButton) {
-				buttons.add((JButton) comp);
-			}
-		}
-		return buttons;
-		
-	}
+	
 	public void tileFill(JButton button, TILETYPE type) {
 		Image iconLogo = new ImageIcon().getImage();
 		switch(type) {
