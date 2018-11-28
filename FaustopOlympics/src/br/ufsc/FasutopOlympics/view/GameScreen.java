@@ -442,7 +442,7 @@ public class GameScreen extends JFrame {
 		mnMenu.add(mntmReturn);
 		
 		//setting initial(unknown) tiles
-		Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+		Image iconLogo = new ImageIcon("resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon imageIcon = new ImageIcon(iconLogo);
 		for(JButton button : butts) {
 			button.setIcon(imageIcon);
@@ -479,7 +479,7 @@ public class GameScreen extends JFrame {
 		
 	}
 	protected void playerTileFill(JButton jButton) {
-		Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/playerTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+		Image iconLogo = new ImageIcon("resources/Images/playerTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon imageIcon = new ImageIcon(iconLogo);
 		jButton.setIcon(imageIcon);
 		pack();
@@ -503,16 +503,16 @@ public class GameScreen extends JFrame {
 		Image iconLogo = new ImageIcon().getImage();
 		switch(type) {
 		case QUESTION:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+			iconLogo = new ImageIcon("resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
 		case OBSTACLE:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/obstacleTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+			iconLogo = new ImageIcon("resources/Images/obstacleTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
 		case TRAPPED:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/trappedTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+			iconLogo = new ImageIcon("resources/Images/trappedTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
 		default:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/blankTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+			iconLogo = new ImageIcon("resources/Images/blankTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
 		}
 		ImageIcon imageIcon = new ImageIcon(iconLogo);

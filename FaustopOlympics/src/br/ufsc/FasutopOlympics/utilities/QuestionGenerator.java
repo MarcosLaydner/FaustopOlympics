@@ -43,7 +43,7 @@ public class QuestionGenerator {
 	private void store() {
 		JSONParser parser = new JSONParser();
 		try {
-			JSONArray questions =  (JSONArray) parser.parse(new FileReader("FaustopOlympics\\resources\\questions.json"));
+			JSONArray questions =  (JSONArray) parser.parse(new FileReader("resources\\questions.json"));
 			
 			for (Object question: questions) {
 				JSONObject quest = (JSONObject) question;
