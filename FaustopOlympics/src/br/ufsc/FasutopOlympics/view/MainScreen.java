@@ -2,15 +2,12 @@ package br.ufsc.FasutopOlympics.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.TrayIcon.MessageType;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import br.ufsc.FasutopOlympics.control.Map;
+import br.ufsc.FasutopOlympics.actors.PlayerActor;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -77,7 +74,7 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog(contentPane, "Please input your name:", "Connect", JOptionPane.QUESTION_MESSAGE);
 			
-				Map.getInstance().connect(name);
+				PlayerActor.getInstance().connect(name);
 				lblPlayer.setText("Player  -  " + name);
 				lblStatus.setText("Status  -  Connected");
 			
@@ -95,9 +92,9 @@ public class MainScreen extends JFrame {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Map.getInstance().start();
+					PlayerActor.getInstance().start();
 					setVisible(false);
-					Map.getInstance().showGameScreen();
+					PlayerActor.getInstance().showGameScreen();
 				} catch (NaoConectadoException e1) {
 					informMessage("You are not connected to the server.");
 				}
@@ -113,7 +110,7 @@ public class MainScreen extends JFrame {
 		btnDisconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Map.getInstance().disconnect();
+					PlayerActor.getInstance().disconnect();
 					lblPlayer.setText("Player  -  ");
 					lblStatus.setText("Status - Disconnected");
 				} catch (NaoConectadoException e1) {
@@ -127,7 +124,7 @@ public class MainScreen extends JFrame {
 		JButton btnGamescr = new JButton("GameScr");
 		btnGamescr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Map.getInstance().showGameScreen();
+				PlayerActor.getInstance().showGameScreen();
 			}
 		});
 		btnGamescr.setBounds(335, 52, 89, 23);

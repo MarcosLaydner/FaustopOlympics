@@ -3,13 +3,13 @@ package br.ufsc.FasutopOlympics.control;
 import java.util.concurrent.ThreadLocalRandom;
 
 import br.ufsc.FasutopOlympics.actors.NetworkActor;
+import br.ufsc.FasutopOlympics.actors.PlayerActor;
 import br.ufsc.FasutopOlympics.model.MapDto;
 import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.FasutopOlympics.model.Question;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
-import br.ufsc.FasutopOlympics.view.MainScreen;
 import br.ufsc.FasutopOlympics.view.QuestionScreen;
 import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
 import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
@@ -25,23 +25,26 @@ public class Map{
 	private NetworkActor nActor;
 	private int counter;
 	private boolean remotePassed;
-	private MainScreen mainScreen;
-	private GameScreen gameScreen;
+	private PlayerActor playerActor;
+
 	private static final Map instance = new Map();
 
 	public Map() {
 		nActor = new NetworkActor(this);
 		this.setSize(6);
 		tiles = new Tile[size][size];
+		playerActor = new PlayerActor();
 		this.remotePassed = false;
-		mainScreen = new MainScreen();
 		this.localPlayer = new Player();
 	}
+	public NetworkActor getNActor() {
+		return this.nActor;
+	}
 	public void showMainMenu() {
-		mainScreen.setVisible(true);
+		playerActor.showMainMenu();
 	}
 	public void showGameScreen() {
-		gameScreen.setVisible(true);
+		playerActor.showGameScreen();
 	}
 	
 	private void generateTiles(){
@@ -71,23 +74,24 @@ public class Map{
 		}
 		counter = size*size;
 		tiles[0][0].setTileType(TILETYPE.BLANK);
-		tiles[6][6].setTileType(TILETYPE.BLANK);
+		tiles[5][5].setTileType(TILETYPE.BLANK);
 		
 	}
 	public void connect(String name) {
 		try {
 			this.localPlayer.setName(name);
 			nActor.conectar(name, "localhost");
-			gameScreen = new GameScreen(localPlayer);
+			playerActor.setGameScreen( new GameScreen(localPlayer));
 		}catch(NaoPossivelConectarException e11) {
-			gameScreen.informMessage(e11.getMessage());
+			playerActor.getGameScreen().informMessage(e11.getMessage());
 		} catch (JahConectadoException e) {
-			gameScreen.informMessage(e.getMessage());
+			playerActor.getGameScreen().informMessage(e.getMessage());
 		} catch (ArquivoMultiplayerException e) {
-			gameScreen.informMessage(e.getMessage());
+			playerActor.getGameScreen().informMessage(e.getMessage());
 		}
 		
 	}
+
 	
 	public void disconnect() throws NaoConectadoException {
 		nActor.desconectar();
@@ -102,7 +106,6 @@ public class Map{
 		placePlayers();
 		generateTiles();
 		//TODO updateFront?
-		gameScreen.setVisible(true);
 		sendMove(localPlayer.getY(), localPlayer.getX());
 	}
 
@@ -117,7 +120,7 @@ public class Map{
 	}
 
 	public boolean sendMove(int y, int x) {
-		if (nActor.isMyTurn() && validatePos(x, y)) {
+		if (nActor.isMyTurn() && validatePos(x, y) ) {
 			boolean ok = move(y, x);
 			if (ok) {
 				nActor.enviarJogada(this);
@@ -125,6 +128,23 @@ public class Map{
 			return ok;
 		} else {
 			return false;
+		}
+	}
+	public String winCheck() {
+		if(localPlayer.getScore() >= 500) {
+			return "Player "+localPlayer.getName() + " is the Winner with "+localPlayer.getScore() + " Points!!!";
+		}else if(remotePlayer.getScore() >= 500){
+			return "Player "+remotePlayer.getName() + " is the Winner with "+remotePlayer.getScore() + " Points!!!";
+		}else if(counter == 0) {
+			if(localPlayer.getScore() > remotePlayer.getScore()) {
+				return "Player "+localPlayer.getName() + " is the Winner with "+localPlayer.getScore() + " Points!!!";
+			} else if(localPlayer.getScore() < remotePlayer.getScore()) {
+				return "Player "+remotePlayer.getName() + " is the Winner with "+remotePlayer.getScore() + " Points!!!";
+			} else {
+				return "It's a tie!!! the winner is Faustop!";
+			}
+		}else {
+			return null;
 		}
 	}
 	
@@ -154,12 +174,12 @@ public class Map{
 					localPlayer.setParalyzed(true);
 					break;
 				case PRIZE_TRAP:
-					gameScreen.trapmode();
-					gameScreen.informMessage("You received a trap! Please select where the trap will be placed");
+					playerActor.getGameScreen().trapmode();
+					playerActor.getGameScreen().informMessage("You received a trap! Please select where the trap will be placed");
 					break;
 				case PRIZE_BONUS:
 					localPlayer.addPoints(50);//seila quantos pontos bixo
-					gameScreen.informMessage("PRIZE!! You got 50 points!");
+					playerActor.getGameScreen().informMessage("PRIZE!! You got 50 points!");
 					break;
 				case QUESTION:
 					QuestionScreen qsc = new QuestionScreen(selected.getQuestion());
@@ -199,7 +219,7 @@ public class Map{
 			selected.setTrapped(true);
 			selected.setTileType(TILETYPE.TRAPPED);
 		} else {
-			gameScreen.informMessage("Could not trap Selected Tile");
+			playerActor.getGameScreen().informMessage("Could not trap Selected Tile");
 		}
 	}
 
@@ -208,7 +228,7 @@ public class Map{
 		this.setRemotePlayer(dto.getPlayer2());
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
-		this.setGameScreen(dto.getGameScreen());
+		playerActor.setGameScreen(dto.getGameScreen());
 		if (dto.isRemotePassed()) {
 			answer();
 		}
@@ -278,12 +298,10 @@ public class Map{
 	}
 
 	public GameScreen getGameScreen() {
-		return this.gameScreen;
+		return this.playerActor.getGameScreen();
 	}
 	
-	public void setGameScreen(GameScreen gameScreen) {
-		 this.gameScreen = gameScreen;
-	}
+
 	
 
 	
