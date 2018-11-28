@@ -69,11 +69,13 @@ public class NetworkActor implements OuvidorProxy {
 	
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
-		System.out.println("Iniciando nova partida com o id de jogador " + posicao);
+		if(posicao == 1) {
+			System.out.println("Iniciando nova partida com o id de jogador " + posicao);
 			setMyTurn(true);
 			map.setLocalPlayer(new Player(1));
 			map.setRemotePlayer(new Player(2));
 			map.prepareMatch();
+		}
 		
 		
 	}

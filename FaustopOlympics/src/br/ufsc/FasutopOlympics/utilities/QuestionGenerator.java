@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,20 +29,32 @@ public class QuestionGenerator {
 	}
 	
 	public Question generate() {
-		 Random rand = new Random();
-		 int i = rand.nextInt(((questionBuffer.size() -1)) + 1);
-		 Question chosen = questionBuffer.get(i);
-		 questionBuffer.remove(chosen);
-		 return chosen;
+		 if (questionBuffer.size() > 0) {
+			 int i = ThreadLocalRandom.current().nextInt(questionBuffer.size());
+			 Question chosen = questionBuffer.get(i);
+			 questionBuffer.remove(chosen);
+			 return chosen;
+		 } else {
+			 store();
+			 return generate();
+		 }
 	}
 	
 	private void store() {
 		JSONParser parser = new JSONParser();
 		try {
-			JSONArray questions = (JSONArray) parser.parse(new FileReader("resources\\questions.json"));
+			JSONArray questions =  (JSONArray) parser.parse(new FileReader("FaustopOlympics\\resources\\questions.json"));
 			
 			for (Object question: questions) {
-				questionBuffer.add((Question) question);
+				JSONObject quest = (JSONObject) question;
+				Question x = new Question();
+				x.setQuestion((String)quest.get("question"));
+				x.setOpt1((String)quest.get("opt1"));
+				x.setOpt2((String)quest.get("opt2"));
+				x.setOpt3((String)quest.get("opt3"));
+				x.setOpt4((String)quest.get("opt4"));
+				x.setRightopt((String)quest.get("rightopt"));
+				questionBuffer.add(x);
 			}
 			
 		} catch (FileNotFoundException e) {

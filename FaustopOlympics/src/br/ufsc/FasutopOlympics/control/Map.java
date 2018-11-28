@@ -10,11 +10,11 @@ import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
+import br.ufsc.FasutopOlympics.view.QuestionScreen;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 
 public class Map{
 	
-	private static final Map instance = new Map();
 	private Player localPlayer;
 	private Player remotePlayer;
 	private Tile[][] tiles;
@@ -24,7 +24,8 @@ public class Map{
 	private boolean remotePassed;
 	private MainScreen mainScreen;
 	private GameScreen gameScreen;
-	
+	private static final Map instance = new Map();
+
 	public Map() {
 		nActor = new NetworkActor(this);
 		this.setSize(6);
@@ -37,16 +38,15 @@ public class Map{
 		mainScreen.setVisible(true);
 	}
 	public void showGameScreen() {
-		gameScreen = new GameScreen(localPlayer);
 		gameScreen.setVisible(true);
 	}
 	
 	private void generateTiles(){
-		for(int y = 0; y > size; y++) {
-			for(int x = 0; x > size; x++) {
+		for(int y = 0; y < size; y++) {
+			for(int x = 0; x < size; x++) {
 				
 				Tile novo = new Tile(y, x);
-				int def = ThreadLocalRandom.current().nextInt(1,5);
+				int def = ThreadLocalRandom.current().nextInt(1,7);
 				switch (def) {
 					case 1: 
 						novo.setTileType(TILETYPE.QUESTION);
@@ -57,10 +57,11 @@ public class Map{
 						novo.setValid(false);
 						break;
 					case 3:
+						novo.setPrize();
+						break;
+					default:
 						novo.setTileType(TILETYPE.BLANK);
 						break;
-					case 4:
-						novo.setPrize();
 				}
 				tiles[y][x] = novo;
 			}
@@ -70,6 +71,8 @@ public class Map{
 	public void connect(String name) {
 		this.localPlayer.setName(name);
 		nActor.conectar(name, "localhost");
+		gameScreen = new GameScreen(localPlayer);
+
 	}
 	
 	public void disconnect() throws NaoConectadoException {
@@ -82,16 +85,16 @@ public class Map{
 	}
 	
 	public void prepareMatch() {
-		generateTiles();
 		placePlayers();
+		generateTiles();
 		//TODO updateFront?
 		gameScreen.setVisible(true);
 		sendMove(localPlayer.getY(), localPlayer.getX());
 	}
 
 	private void placePlayers() {
-		localPlayer.setY(1);
-		localPlayer.setX(1);
+		localPlayer.setY(0);
+		localPlayer.setX(0);
 		//TODO send to front, probably check to see if it's valid
 		remotePlayer.setY(6);
 		remotePlayer.setX(6);
@@ -113,6 +116,8 @@ public class Map{
 	
 	private boolean move(int y, int x) {
 		Tile selected = tiles[y][x];
+		selected = tiles[x][y];
+		
 		if (selected.isValid() && !localPlayer.isParalyzed()) {
 			//TODO set occupied or invalid?
 			TILETYPE type = selected.getTileType();
@@ -122,14 +127,18 @@ public class Map{
 					localPlayer.setParalyzed(true);
 					break;
 				case PRIZE_TRAP:
-					//TODO Front prompt to place trap
+					gameScreen.trapmode();
+					gameScreen.informMessage("You received a trap! Please select where the trap will be placed");
 					break;
 				case PRIZE_BONUS:
 					localPlayer.addPoints(50);//seila quantos pontos bixo
+					gameScreen.informMessage("PRIZE!! You got 50 points!");
 					break;
 				case QUESTION:
-					//TODO Front prompt to ask question idk
-					selected.getQuestion();
+					QuestionScreen qsc = new QuestionScreen(selected.getQuestion());
+					qsc.setVisible(true);
+					break;
+				default:
 					break;
 			}
 			moveTo(selected);
@@ -146,13 +155,7 @@ public class Map{
 	}
 
 	//Not sure about this one
-	public void checkQuestion(String answer, Question question) {
-		if (answer.equals(question.getRightopt())) {
-			localPlayer.addPoints(50);
-		} else {
-			localPlayer.addPoints(-25);
-		}
-	}
+	
 	
 	public void pass() {
 		//TODO this one will be hard. Or will it? - think i already got it
@@ -169,7 +172,7 @@ public class Map{
 			selected.setTrapped(true);
 			selected.setTileType(TILETYPE.TRAPPED);
 		} else {
-			//TODO mandar pro front
+			gameScreen.informMessage("Could not trap Selected Tile");
 		}
 	}
 

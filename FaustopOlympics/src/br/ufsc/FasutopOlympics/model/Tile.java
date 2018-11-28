@@ -8,12 +8,13 @@ public class Tile {
 	private int column;
 	private TILETYPE tileType;
 	private Question question;
-	private boolean valid;
+	private boolean valid = true;
 	private boolean trapped;
 	private boolean explored;
 	
 	public Tile(int line, int column) {
-		
+		this.line = line;
+		this.column= column;
 	}
 	
 	public int getLine() {
