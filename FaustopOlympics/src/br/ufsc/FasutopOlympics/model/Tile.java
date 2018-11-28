@@ -13,7 +13,8 @@ public class Tile {
 	private boolean explored;
 	
 	public Tile(int line, int column) {
-		
+		this.line = line;
+		this.column= column;
 	}
 	
 	public int getLine() {

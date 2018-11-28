@@ -60,10 +60,11 @@ public class Map{
 						novo.setValid(false);
 						break;
 					case 3:
+						novo.setPrize();
+						break;
+					default:
 						novo.setTileType(TILETYPE.BLANK);
 						break;
-					case 4:
-						novo.setPrize();
 				}
 				tiles[y][x] = novo;
 			}
