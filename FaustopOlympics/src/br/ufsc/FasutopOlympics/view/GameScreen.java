@@ -10,7 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.ufsc.FasutopOlympics.control.Map;
+import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
+import br.ufsc.FasutopOlympics.model.Tile;
+import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -74,10 +77,9 @@ public class GameScreen extends JFrame {
 	private JButton pos34;
 	private JButton pos35;
 	private JButton pos36;
-	private List<JButton> btList = getButtons();
-	
 	private JPanel contentPane;
-
+	
+	private boolean trapmode = false;
 	/**
 	 * Launch the application.
 	 */
@@ -85,27 +87,7 @@ public class GameScreen extends JFrame {
 	//where the stuff is done.
 	private ActionListener l = new ActionListener() {
 		public void actionPerformed(final ActionEvent e) {
-			for( int i = 0; i < 36; i++ ) {
-				if(btList.get(i).equals((JButton) e.getSource())) {
-					//translating [0-35] to coordinates [0-5][0-5]
-					int j = i;
-					int k = 0;
-					while(j > 5) {
-						j -=6;
-						k++;
-					}
-					if(!Map.getInstance().treatMove(j,k)) {
-						informMessage("Could not move to selected Tile!");
-						
-					}else {
-						tileFill(btList.get(i), Map.getInstance().getTiles()[j][k].getTileType());
-						repaint();
-					}
-					
-				}
-			}
-				
-			repaint();
+
 		}
 	};
 	private JMenuBar menuBar;
@@ -114,11 +96,13 @@ public class GameScreen extends JFrame {
 	private JMenuItem mntmDisconnect;
 	private JMenuItem mntmRestart;
 	private JMenuItem mntmReturn;
-	private JMenuItem mntmExit;
 
 	/**
 	 * Create the frame.
 	 */
+	public void trapmode() {
+		trapmode = true;
+	}
 	public GameScreen() {
 		setPreferredSize(new Dimension(550, 550));
 		getContentPane().setBackground(Color.DARK_GRAY);
@@ -136,41 +120,221 @@ public class GameScreen extends JFrame {
 		getContentPane().add(lblPoints);
 		
 		pos1 = new JButton();
+		pos1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos1, 0, 0);
+			}
+		});
 		pos2 = new JButton();
+		pos2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos2, 0, 1);
+			}
+		});
 		pos3 = new JButton();
+		pos3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos3, 0, 2);
+			}
+		});
 		pos4 = new JButton();
+		pos4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos4, 0, 3);
+			}
+		});
 		pos5 = new JButton();
+		pos5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos5, 0, 4);
+			}
+		});
 		pos6 = new JButton();
+		pos6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos6, 0, 5);
+			}
+		});
 		pos7 = new JButton();
+		pos7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos7, 1, 0);
+			}
+		});
 		pos8 = new JButton();
+		pos8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos8, 1, 1);
+			}
+		});
 		pos9 = new JButton();
+		pos9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos9, 1, 2);
+			}
+		});
 		pos10 = new JButton();
+		pos10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos10, 1, 3);
+			}
+		});
 		pos11 = new JButton();
+		pos11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos11, 1, 4);
+			}
+		});
 		pos12 = new JButton();
+		pos12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos12, 2, 5);
+			}
+		});
 		pos13 = new JButton();
+		pos13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos13, 2, 0);
+			}
+		});
 		pos14 = new JButton();
+		pos14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos14, 2, 1);
+			}
+		});
 		pos15 = new JButton();
+		pos15.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos15, 2, 2);
+			}
+		});
 		pos16 = new JButton();
+		pos16.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos16, 2, 3);
+			}
+		});
 		pos17 = new JButton();
+		pos17.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos17, 2, 4);
+			}
+		});
 		pos18 = new JButton();
+		pos18.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos18, 2, 5);
+			}
+		});
 		pos19 = new JButton();
+		pos19.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos19, 3, 0);
+			}
+		});
 		pos20 = new JButton();
+		pos20.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos20, 3, 1);
+			}
+		});
 		pos21 = new JButton();
+		pos21.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos21, 3, 2);
+			}
+		});
 		pos22 = new JButton();
+		pos22.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos22, 3, 3);
+			}
+		});
 		pos23 = new JButton();
+		pos23.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos23, 3, 4);
+			}
+		});
 		pos24 = new JButton();
+		pos24.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos24, 3, 5);
+			}
+		});
 		pos25 = new JButton();
+		pos25.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos25, 4, 0);
+			}
+		});
 		pos26 = new JButton();
+		pos26.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos26, 4, 1);
+			}
+		});
 		pos27 = new JButton();
+		pos27.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos27, 4, 2);
+			}
+		});
 		pos28 = new JButton();
+		pos28.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos28, 4, 3);
+			}
+		});
 		pos29 = new JButton();
+		pos29.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos29, 4, 4);
+			}
+		});
 		pos30 = new JButton();
+		pos30.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos30, 4, 5);
+			}
+		});
 		pos31 = new JButton();
+		pos31.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos31, 5, 0);
+			}
+		});
 		pos32 = new JButton();
+		pos32.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos32, 5, 1);
+			}
+		});
 		pos33 = new JButton();
+		pos33.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos33, 5, 2);
+			}
+		});
 		pos34 = new JButton();
+		pos34.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos34, 5, 3);
+			}
+		});
 		pos35 = new JButton();
+		pos35.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos35, 5, 4);
+			}
+		});
 		pos36 = new JButton();
+		pos36.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAction(pos36, 5, 5);
+			}
+		});
 		
 		getContentPane().add(pos1);getContentPane().add(pos2);getContentPane().add(pos3);getContentPane().add(pos4);getContentPane().add(pos5);getContentPane().add(pos6);getContentPane().add(pos7);getContentPane().add(pos8);getContentPane().add(pos9);
 		getContentPane().add(pos10);getContentPane().add(pos11);getContentPane().add(pos12);getContentPane().add(pos13);getContentPane().add(pos14);getContentPane().add(pos15);getContentPane().add(pos16);getContentPane().add(pos17);
@@ -234,29 +398,43 @@ public class GameScreen extends JFrame {
 		menuBar.add(mnMenu);
 		
 		mntmReconnect = new JMenuItem("Reconnect");
+		mntmReconnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		mntmReconnect.setForeground(Color.CYAN);
 		mntmReconnect.setBackground(Color.BLACK);
 		mnMenu.add(mntmReconnect);
 		
 		mntmDisconnect = new JMenuItem("Disconnect");
+		mntmDisconnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mntmDisconnect.setForeground(Color.CYAN);
 		mntmDisconnect.setBackground(Color.BLACK);
 		mnMenu.add(mntmDisconnect);
 		
 		mntmRestart = new JMenuItem("Restart");
+		mntmRestart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mntmRestart.setForeground(Color.CYAN);
 		mntmRestart.setBackground(Color.BLACK);
 		mnMenu.add(mntmRestart);
 		
-		mntmReturn = new JMenuItem("Return");
+		mntmReturn = new JMenuItem("Main Menu");
+		mntmReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(1 != JOptionPane.showConfirmDialog(getContentPane(), "Are you sure?")) {
+					
+				}
+			}
+		});
 		mntmReturn.setForeground(Color.CYAN);
 		mntmReturn.setBackground(Color.BLACK);
 		mnMenu.add(mntmReturn);
-		
-		mntmExit = new JMenuItem("Exit");
-		mntmExit.setForeground(Color.CYAN);
-		mntmExit.setBackground(Color.BLACK);
-		mnMenu.add(mntmExit);
 		
 		//setting initial(unknown) tiles
 		Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/unknownTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
@@ -271,6 +449,45 @@ public class GameScreen extends JFrame {
 		
 
 		
+	}
+	protected void buttonAction(JButton bt, int i, int j) {
+		Player localp = Map.getInstance().getLocalPlayer();
+		Tile[][] tiles = Map.getInstance().getTiles();
+		if (!trapmode) {
+			if(!Map.getInstance().treatMove(i,j)) {
+				informMessage("Could not move to selected Tile!");
+						
+				}else {
+					playerTileFill(bt);
+					tileFill(getButtons().get(matrixToLine(localp.getX(), localp.getY())), tiles[localp.getX()][localp.getY()].getTileType()) ;
+					repaint();
+				}
+					
+		}else {
+			tiles[i][j].setTrapped(true);
+			tileFill(bt, TILETYPE.TRAPPED);
+		}
+		
+	}
+	protected void playerTileFill(JButton jButton) {
+		Image iconLogo = new ImageIcon("FaustopOlympics/resources/Images/playerTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon imageIcon = new ImageIcon(iconLogo);
+		jButton.setIcon(imageIcon);
+		pack();
+		repaint();
+		
+	}
+	public int[] lineToMatrix(int l) {
+		int r = 0;
+		while(l > 6) {
+			l -= 6;
+			r++;
+		}
+		int[] pos = {l, r};
+		return pos;
+	}
+	public int matrixToLine(int l, int r) {
+		return l + (r*6);
 	}
 	public List<JButton> getButtons() {
 		List<JButton> buttons = new ArrayList<>();
@@ -290,25 +507,14 @@ public class GameScreen extends JFrame {
 			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
 		case OBSTACLE:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
-			break;
-		case BLANK:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
-			break;
-		case PRIZE:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
-			break;
-		case PRIZE_TRAP:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
-			break;
-		case PRIZE_BONUS:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/obstacleTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
 		case TRAPPED:
-			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/questionTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/trappedTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
-				
-		
+		default:
+			iconLogo = new ImageIcon("FaustopOlympics/resources/Images/blankTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
+			break;
 		}
 		ImageIcon imageIcon = new ImageIcon(iconLogo);
 		button.setIcon(imageIcon);

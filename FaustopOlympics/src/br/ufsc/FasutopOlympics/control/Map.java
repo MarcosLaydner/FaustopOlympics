@@ -10,6 +10,9 @@ import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
+import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
+import br.ufsc.FasutopOlympics.view.GameScreen;
+import br.ufsc.FasutopOlympics.view.MainScreen;
 
 public class Map{
 	
@@ -70,12 +73,13 @@ public class Map{
 		nActor.conectar(name, "localhost");
 	}
 	
-	public void disconnect() {
+	public void disconnect() throws NaoConectadoException {
 		nActor.desconectar();
 	}
 	
-	public void start() {
+	public void start() throws NaoConectadoException {
 		nActor.iniciarPartidaRede();
+		
 	}
 	
 	public void prepareMatch() {

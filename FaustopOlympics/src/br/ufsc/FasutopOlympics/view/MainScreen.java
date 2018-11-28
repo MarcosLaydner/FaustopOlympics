@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.ufsc.FasutopOlympics.control.Map;
+import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,14 +57,28 @@ public class MainScreen extends JFrame {
 		
 		JLabel lblOlimpadasDoFaustop = new JLabel("Olimpíadas do Faustop");
 		lblOlimpadasDoFaustop.setForeground(Color.YELLOW);
-		lblOlimpadasDoFaustop.setBounds(5, 5, 424, 14);
+		lblOlimpadasDoFaustop.setBounds(5, 5, 162, 14);
 		contentPane.add(lblOlimpadasDoFaustop);
+		
+		JLabel lblStatus = new JLabel("Status  -  Disconnected");
+		lblStatus.setForeground(Color.YELLOW);
+		lblStatus.setBounds(164, 5, 153, 14);
+		contentPane.add(lblStatus);
+		
+		JLabel lblPlayer = new JLabel("Player  -  ");
+		lblPlayer.setForeground(Color.YELLOW);
+		lblPlayer.setBounds(164, 27, 260, 14);
+		contentPane.add(lblPlayer);
 		
 		JButton btnConnect = new JButton("Connect");
 		btnConnect.setForeground(Color.GREEN);
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Map.getInstance().connect(JOptionPane.showInputDialog(contentPane, "Please input your name:", "Connect", JOptionPane.QUESTION_MESSAGE));
+				String name = JOptionPane.showInputDialog(contentPane, "Please input your name:", "Connect", JOptionPane.QUESTION_MESSAGE);
+				Map.getInstance().connect(name);
+				lblPlayer.setText("Player  -  " + name);
+				lblStatus.setText("Status  -  Connected");
+				
 			}
 		});
 		btnConnect.setBackground(Color.BLACK);
@@ -75,7 +90,12 @@ public class MainScreen extends JFrame {
 		btnStart.setForeground(Color.GREEN);
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Map.getInstance().start();
+				try {
+					Map.getInstance().start();
+				} catch (NaoConectadoException e1) {
+					informMessage("You are not connected to the server.");
+				}
+				
 			}
 		});
 		btnStart.setBounds(164, 86, 108, 23);
@@ -86,20 +106,17 @@ public class MainScreen extends JFrame {
 		btnDisconnect.setBackground(Color.BLACK);
 		btnDisconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					Map.getInstance().disconnect();
+					lblPlayer.setText("Player  -  ");
+					lblStatus.setText("Status - Disconnected");
+				} catch (NaoConectadoException e1) {
+					informMessage("You are not connected to the server");
+				}
 			}
 		});
 		btnDisconnect.setBounds(164, 120, 108, 23);
 		contentPane.add(btnDisconnect);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.setBackground(Color.BLACK);
-		btnExit.setForeground(Color.GREEN);
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnExit.setBounds(164, 154, 108, 23);
-		contentPane.add(btnExit);
 		
 		JButton btnGamescr = new JButton("GameScr");
 		btnGamescr.addActionListener(new ActionListener() {
@@ -109,5 +126,10 @@ public class MainScreen extends JFrame {
 		});
 		btnGamescr.setBounds(335, 52, 89, 23);
 		contentPane.add(btnGamescr);
+		
+
+	}
+	public void informMessage(String message) {
+		JOptionPane.showMessageDialog(null, message, "Aviso", JOptionPane.PLAIN_MESSAGE);
 	}
 }

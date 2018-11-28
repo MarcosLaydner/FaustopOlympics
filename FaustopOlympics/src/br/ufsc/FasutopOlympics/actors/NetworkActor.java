@@ -41,15 +41,12 @@ public class NetworkActor implements OuvidorProxy {
 		return "";
 	}
 	
-	public String iniciarPartidaRede() {
+	public void iniciarPartidaRede() throws NaoConectadoException {
 		try {
 			proxy.iniciarPartida(2);
 		} catch (NaoConectadoException e) {
-			e.printStackTrace();
-			return "You are not connected to the server";
+			throw new NaoConectadoException();
 		}
-		
-		return "";
 	}
 	
 	public void enviarJogada(Map map) {
@@ -62,11 +59,11 @@ public class NetworkActor implements OuvidorProxy {
 		}
 	}
 	
-	public void desconectar() {
+	public void desconectar() throws NaoConectadoException {
 		try {
 			proxy.desconectar();
 		} catch (NaoConectadoException e) {
-			e.printStackTrace();
+			throw new NaoConectadoException();
 		}
 	}
 	
