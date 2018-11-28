@@ -11,8 +11,6 @@ import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
-import br.ufsc.FasutopOlympics.view.GameScreen;
-import br.ufsc.FasutopOlympics.view.MainScreen;
 
 public class Map{
 	
