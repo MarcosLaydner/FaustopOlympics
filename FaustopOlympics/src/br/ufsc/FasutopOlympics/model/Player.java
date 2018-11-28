@@ -17,6 +17,9 @@ public class Player {
 		this.paralyzed = false;
 	}
 	
+	public Player() {
+	}
+
 	public String getName() {
 		return name;
 	}

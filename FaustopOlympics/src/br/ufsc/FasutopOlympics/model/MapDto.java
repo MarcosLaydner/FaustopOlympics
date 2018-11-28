@@ -1,5 +1,6 @@
 package br.ufsc.FasutopOlympics.model;
 
+import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.inf.leobr.cliente.Jogada;
 
 public class MapDto implements Jogada {
@@ -8,13 +9,15 @@ public class MapDto implements Jogada {
 	private Player remotePlayer;
 	private Tile[][] tiles;
 	private boolean remotePassed;
+	private GameScreen gameScreen;
 	
-	public MapDto(Player player1, Player player2, Tile[][] tiles, boolean remotePassed) {
+	public MapDto(Player player1, Player player2, Tile[][] tiles, boolean remotePassed, GameScreen gameScreen) {
 		super();
 		this.localPlayer = player1;
 		this.remotePlayer = player2;
 		this.tiles = tiles;
 		this.setRemotePassed(remotePassed);
+		this.gameScreen = gameScreen;
 	}
 	
 	public Player getPlayer1() {
@@ -42,5 +45,13 @@ public class MapDto implements Jogada {
 
 	public void setRemotePassed(boolean remotePassed) {
 		this.remotePassed = remotePassed;
+	}
+
+	public GameScreen getGameScreen() {
+		return gameScreen;
+	}
+
+	public void setGameScreen(GameScreen gameScreen) {
+		this.gameScreen = gameScreen;
 	}
 }

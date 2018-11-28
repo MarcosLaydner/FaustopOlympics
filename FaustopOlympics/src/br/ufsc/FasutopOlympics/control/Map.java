@@ -31,7 +31,7 @@ public class Map{
 		this.remotePassed = false;
 		mainScreen = new MainScreen();
 		gameScreen = new GameScreen();
-		
+		this.localPlayer = new Player();
 	}
 	public void showMainMenu() {
 		mainScreen.setVisible(true);
@@ -67,6 +67,7 @@ public class Map{
 		counter = size*size;
 	}
 	public void connect(String name) {
+		this.localPlayer.setName(name);
 		nActor.conectar(name, "localhost");
 	}
 	
@@ -82,18 +83,16 @@ public class Map{
 		generateTiles();
 		placePlayers();
 		//TODO updateFront?
-	}
-	
-	private int randomCoordinates() {
-		return ThreadLocalRandom.current().nextInt(0,6);
+		gameScreen.setVisible(true);
+		sendMove(localPlayer.getY(), localPlayer.getX());
 	}
 
 	private void placePlayers() {
-		localPlayer.setY(randomCoordinates());
-		localPlayer.setX(randomCoordinates());
+		localPlayer.setY(1);
+		localPlayer.setX(1);
 		//TODO send to front, probably check to see if it's valid
-		remotePlayer.setY(randomCoordinates());
-		remotePlayer.setX(randomCoordinates());
+		remotePlayer.setY(6);
+		remotePlayer.setX(6);
 		//TODO same thing
 		
 	}
@@ -176,7 +175,9 @@ public class Map{
 		this.setLocalPlayer(dto.getPlayer1());
 		this.setRemotePlayer(dto.getPlayer2());
 		this.setTiles(dto.getTiles());
-		//TODO updateFront?
+		this.setRemotePassed(dto.isRemotePassed());
+		this.setGameScreen(dto.getGameScreen());
+		//TODO repaint(); ??????
 	}
 
 	
@@ -240,6 +241,13 @@ public class Map{
 		return move(j, k);
 	}
 
+	public GameScreen getGameScreen() {
+		return this.gameScreen;
+	}
+	
+	public void setGameScreen(GameScreen gameScreen) {
+		 this.gameScreen = gameScreen;
+	}
 	
 
 	
