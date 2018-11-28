@@ -39,7 +39,6 @@ public class Map{
 		mainScreen.setVisible(true);
 	}
 	public void showGameScreen() {
-		gameScreen = new GameScreen(localPlayer);
 		gameScreen.setVisible(true);
 	}
 	
@@ -72,6 +71,8 @@ public class Map{
 	public void connect(String name) {
 		this.localPlayer.setName(name);
 		nActor.conectar(name, "localhost");
+		gameScreen = new GameScreen(localPlayer);
+
 	}
 	
 	public void disconnect() throws NaoConectadoException {

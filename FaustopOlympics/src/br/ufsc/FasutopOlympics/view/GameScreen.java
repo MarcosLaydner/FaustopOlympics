@@ -398,7 +398,6 @@ public class GameScreen extends JFrame {
 		mnMenu.setForeground(Color.CYAN);
 		mnMenu.setBackground(Color.BLACK);
 		menuBar.add(mnMenu);
-		
 		mntmReconnect = new JMenuItem("Reconnect");
 		mntmReconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -411,6 +410,11 @@ public class GameScreen extends JFrame {
 		mntmDisconnect = new JMenuItem("Disconnect");
 		mntmDisconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					Map.getInstance().disconnect();
+				}catch(NaoConectadoException e1){
+					informMessage("This cannot happen.");
+				}
 			}
 		});
 		mntmDisconnect.setForeground(Color.CYAN);
@@ -430,7 +434,13 @@ public class GameScreen extends JFrame {
 		mntmReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(1 != JOptionPane.showConfirmDialog(getContentPane(), "Are you sure?")) {
-					
+					try {
+						Map.getInstance().disconnect();
+						setVisible(false);
+						Map.getInstance().showMainMenu();
+					} catch (NaoConectadoException e1) {
+						
+					}
 				}
 			}
 		});
