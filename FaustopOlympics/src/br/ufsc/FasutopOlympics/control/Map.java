@@ -10,6 +10,7 @@ import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
+import br.ufsc.FasutopOlympics.view.QuestionScreen;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
@@ -34,6 +35,7 @@ public class Map{
 		this.remotePassed = false;
 		mainScreen = new MainScreen();
 		this.localPlayer = new Player();
+		generateTiles();
 	}
 	public void showMainMenu() {
 		mainScreen.setVisible(true);
@@ -85,7 +87,6 @@ public class Map{
 	}
 	
 	public void prepareMatch() {
-		generateTiles();
 		placePlayers();
 		//TODO updateFront?
 		gameScreen.setVisible(true);
@@ -116,6 +117,8 @@ public class Map{
 	
 	private boolean move(int y, int x) {
 		Tile selected = tiles[y][x];
+		selected = tiles[x][y];
+		
 		if (selected.isValid() && !localPlayer.isParalyzed()) {
 			//TODO set occupied or invalid?
 			TILETYPE type = selected.getTileType();
@@ -125,14 +128,18 @@ public class Map{
 					localPlayer.setParalyzed(true);
 					break;
 				case PRIZE_TRAP:
-					//TODO Front prompt to place trap
+					gameScreen.trapmode();
+					gameScreen.informMessage("Please select where the trap will be placed");
 					break;
 				case PRIZE_BONUS:
 					localPlayer.addPoints(50);//seila quantos pontos bixo
+					gameScreen.informMessage("PRIZE!! You got 50 points!");
 					break;
 				case QUESTION:
-					//TODO Front prompt to ask question idk
-					selected.getQuestion();
+					QuestionScreen qsc = new QuestionScreen(selected.getQuestion());
+					qsc.setVisible(true);
+					break;
+				default:
 					break;
 			}
 			moveTo(selected);
@@ -149,13 +156,7 @@ public class Map{
 	}
 
 	//Not sure about this one
-	public void checkQuestion(String answer, Question question) {
-		if (answer.equals(question.getRightopt())) {
-			localPlayer.addPoints(50);
-		} else {
-			localPlayer.addPoints(-25);
-		}
-	}
+	
 	
 	public void pass() {
 		//TODO this one will be hard. Or will it? - think i already got it
@@ -172,7 +173,7 @@ public class Map{
 			selected.setTrapped(true);
 			selected.setTileType(TILETYPE.TRAPPED);
 		} else {
-			//TODO mandar pro front
+			gameScreen.informMessage("Could not trap Selected Tile");
 		}
 	}
 

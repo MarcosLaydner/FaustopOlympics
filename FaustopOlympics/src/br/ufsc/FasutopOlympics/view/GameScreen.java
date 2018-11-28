@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import br.ufsc.FasutopOlympics.control.Map;
 import br.ufsc.FasutopOlympics.model.Player;
+import br.ufsc.FasutopOlympics.model.Question;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
@@ -407,23 +408,12 @@ public class GameScreen extends JFrame {
 		mntmReconnect.setBackground(Color.BLACK);
 		mnMenu.add(mntmReconnect);
 		
-		mntmDisconnect = new JMenuItem("Disconnect");
-		mntmDisconnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Map.getInstance().disconnect();
-				}catch(NaoConectadoException e1){
-					informMessage("This cannot happen.");
-				}
-			}
-		});
-		mntmDisconnect.setForeground(Color.CYAN);
-		mntmDisconnect.setBackground(Color.BLACK);
-		mnMenu.add(mntmDisconnect);
+	
 		
 		mntmRestart = new JMenuItem("Restart");
 		mntmRestart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		mntmRestart.setForeground(Color.CYAN);
@@ -544,6 +534,7 @@ public class GameScreen extends JFrame {
 	public void informMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Aviso", JOptionPane.PLAIN_MESSAGE);
 	}
+
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
