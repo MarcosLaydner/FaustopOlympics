@@ -465,19 +465,19 @@ public class GameScreen extends JFrame {
 		int playerx = localp.getX();
 		int playery = localp.getY();
 		if (!trapmode) {
-			if(!Map.getInstance().sendMove(i,j)) {
+			if(!Map.getInstance().sendMove(j,i)) {
 				informMessage("Could not move to selected Tile!");
 						
 				}else {
 					playerTileFill(bt);
-					tileFill(butts[matrixToLine(playerx, playery)], tiles[playerx][playery].getTileType()) ;
+					tileFill(butts[matrixToLine(playery, playerx)], tiles[playery][playerx].getTileType()) ;
 					updateLabels(localp);
 					repaint();
 					
 				}
 					
 		}else {
-			tiles[i][j].setTrapped(true);
+			tiles[j][i].setTrapped(true);
 			tileFill(bt, TILETYPE.TRAPPED);
 		}
 		

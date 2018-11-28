@@ -117,7 +117,7 @@ public class Map{
 	}
 
 	public boolean sendMove(int y, int x) {
-		if (nActor.isMyTurn()) {
+		if (nActor.isMyTurn() && validatePos(x, y)) {
 			boolean ok = move(y, x);
 			if (ok) {
 				nActor.enviarJogada(this);
@@ -128,9 +128,22 @@ public class Map{
 		}
 	}
 	
+	private boolean validatePos(int x, int y) {
+		int px = localPlayer.getX();
+		int py = localPlayer.getY();
+		if(x == px-1 || x == px+1) {
+			if(y < py+2 && y > py-2) {
+				return true;
+			}
+		} else if(y == px-1 || y == px+1) {
+			if(x < px+2 && x > px-2) {
+				return true;
+			}
+		}
+		return false;
+	}
 	private boolean move(int y, int x) {
 		Tile selected = tiles[y][x];
-		selected = tiles[x][y];
 		
 		if (selected.isValid() && !localPlayer.isParalyzed()) {
 			//TODO set occupied or invalid?
@@ -207,10 +220,7 @@ public class Map{
 		this.remotePassed = false;		
 	}
 	
-	public boolean treatMove(int j, int k) {
-		// TODO Auto-generated method stub
-		return move(j, k);
-	}
+
 	
 	//-----------------------=Getters & Setters=---------------------------\\
 	
