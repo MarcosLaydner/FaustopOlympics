@@ -2,6 +2,7 @@ package br.ufsc.FasutopOlympics.actors;
 
 import br.ufsc.FasutopOlympics.control.Map;
 import br.ufsc.FasutopOlympics.model.Player;
+import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
 import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
@@ -21,10 +22,14 @@ public class PlayerActor {
 		mainScreen = new MainScreen();
 	}
 	public void showMainMenu() {
-		mainScreen.setVisible(true);
+		this.mainScreen.setVisible(true);
 	}
 	public void showGameScreen() {
-		gameScreen.setVisible(true);
+		if(gameScreen == null) {
+			gameScreen = new GameScreen(localPlayer);
+				
+		}
+		this.gameScreen.setVisible(true);
 	}
 	public void connect(String name) {
 		Map.getInstance().connect(name);
@@ -48,6 +53,30 @@ public class PlayerActor {
 	}
 	public void disconnect() throws NaoConectadoException {
 		Map.getInstance().disconnect();
+		
+	}
+	public void prepareMatch() {
+		Map.getInstance().prepareMatch();
+		
+	}
+	public String winCheck() {
+		// TODO Auto-generated method stub
+		return Map.getInstance().winCheck();
+	}
+	public boolean sendMove(int j, int i) {
+		// TODO Auto-generated method stub
+		return Map.getInstance().sendMove(j, i);
+	}
+	public Tile[][] getTiles() {
+		// TODO Auto-generated method stub
+		return Map.getInstance().getTiles();
+	}
+	public Player getLocalPlayer() {
+		// TODO Auto-generated method stub
+		return Map.getInstance().getLocalPlayer();
+	}
+	public void newGameScreen(Player localPlayer) {
+		this.gameScreen = new GameScreen(localPlayer);
 		
 	}
 }

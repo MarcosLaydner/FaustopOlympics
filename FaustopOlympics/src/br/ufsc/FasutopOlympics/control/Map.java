@@ -33,9 +33,9 @@ public class Map{
 		nActor = new NetworkActor(this);
 		this.setSize(6);
 		tiles = new Tile[size][size];
-		playerActor = new PlayerActor();
 		this.remotePassed = false;
 		this.localPlayer = new Player();
+		playerActor = PlayerActor.getInstance();
 	}
 	public NetworkActor getNActor() {
 		return this.nActor;
@@ -81,7 +81,7 @@ public class Map{
 		try {
 			this.localPlayer.setName(name);
 			nActor.conectar(name, "localhost");
-			playerActor.setGameScreen( new GameScreen(localPlayer));
+			playerActor.newGameScreen(localPlayer);
 		}catch(NaoPossivelConectarException e11) {
 			playerActor.getGameScreen().informMessage(e11.getMessage());
 		} catch (JahConectadoException e) {

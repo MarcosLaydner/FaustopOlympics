@@ -1,33 +1,23 @@
 package br.ufsc.FasutopOlympics.view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import br.ufsc.FasutopOlympics.control.Map;
+import br.ufsc.FasutopOlympics.actors.PlayerActor;
 import br.ufsc.FasutopOlympics.model.Player;
-import br.ufsc.FasutopOlympics.model.Question;
 import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 
-import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Insets;
-import java.awt.Window;
-
-import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -36,8 +26,6 @@ import java.awt.event.MouseEvent;
 import java.util.*;
 import java.awt.Color;
 import javax.swing.JMenu;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuBar;
@@ -430,9 +418,9 @@ public class GameScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(1 != JOptionPane.showConfirmDialog(getContentPane(), "Are you sure?")) {
 					try {
-						Map.getInstance().disconnect();
+						PlayerActor.getInstance().disconnect();
 						setVisible(false);
-						Map.getInstance().showMainMenu();
+						PlayerActor.getInstance().showMainMenu();
 					} catch (NaoConectadoException e1) {
 						
 					}
@@ -453,20 +441,20 @@ public class GameScreen extends JFrame {
 		}
 		playerTileFill(pos1);
 		playerTileFill(pos36);
-		updateLabels(Map.getInstance().getLocalPlayer());
+		updateLabels(PlayerActor.getInstance().getLocalPlayer());
 		
 		
 
 		
 	}
 	protected void buttonAction(JButton bt, int i, int j) {
-		Player localp = Map.getInstance().getLocalPlayer();
-		Tile[][] tiles = Map.getInstance().getTiles();
+		Player localp = PlayerActor.getInstance().getLocalPlayer();
+		Tile[][] tiles = PlayerActor.getInstance().getTiles();
 		int playerx = localp.getX();
 		int playery = localp.getY();
 		if (!trapmode) {
-			if(Map.getInstance().winCheck() == null) {
-				if(!Map.getInstance().sendMove(j,i)) {
+			if(PlayerActor.getInstance().winCheck() == null) {
+				if(!PlayerActor.getInstance().sendMove(j,i)) {
 					informMessage("Could not move to selected Tile!");
 							
 					}else {
@@ -477,8 +465,8 @@ public class GameScreen extends JFrame {
 						
 					}
 			}else {
-				informMessage(Map.getInstance().winCheck());
-				Map.getInstance().prepareMatch();
+				informMessage(PlayerActor.getInstance().winCheck());
+				PlayerActor.getInstance().prepareMatch();
 			}
 		}else {
 			tiles[j][i].setTrapped(true);
