@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import br.ufsc.FasutopOlympics.control.Map;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
+import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -75,9 +76,12 @@ public class MainScreen extends JFrame {
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog(contentPane, "Please input your name:", "Connect", JOptionPane.QUESTION_MESSAGE);
+			
 				Map.getInstance().connect(name);
 				lblPlayer.setText("Player  -  " + name);
 				lblStatus.setText("Status  -  Connected");
+			
+				
 				
 			}
 		});

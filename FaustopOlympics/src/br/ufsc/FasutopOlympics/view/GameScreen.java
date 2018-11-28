@@ -100,6 +100,8 @@ public class GameScreen extends JFrame {
 	private JMenuItem mntmDisconnect;
 	private JMenuItem mntmRestart;
 	private JMenuItem mntmReturn;
+	private JLabel lblPlayer;
+	private JLabel lblPoints;
 
 	/**
 	 * Create the frame.
@@ -114,12 +116,12 @@ public class GameScreen extends JFrame {
 		addAction();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
-		JLabel lblPlayer = new JLabel("Player  -  " + localPlayer.getName());
+		lblPlayer = new JLabel("Player  -  " + localPlayer.getName());
 		lblPlayer.setForeground(Color.GREEN);
 		lblPlayer.setBounds(114, 33, 165, 25);
 		getContentPane().add(lblPlayer);
 		
-		JLabel lblPoints = new JLabel("Score  -  " + localPlayer.getScore());
+		lblPoints = new JLabel("Score  -  " + localPlayer.getScore());
 		lblPoints.setForeground(Color.GREEN);
 		lblPoints.setBounds(302, 33, 100, 25);
 		getContentPane().add(lblPoints);
@@ -451,6 +453,7 @@ public class GameScreen extends JFrame {
 		}
 		playerTileFill(pos1);
 		playerTileFill(pos36);
+		updateLabels(Map.getInstance().getLocalPlayer());
 		
 		
 
@@ -468,6 +471,7 @@ public class GameScreen extends JFrame {
 				}else {
 					playerTileFill(bt);
 					tileFill(butts[matrixToLine(playerx, playery)], tiles[playerx][playery].getTileType()) ;
+					updateLabels(localp);
 					repaint();
 					
 				}
@@ -477,6 +481,10 @@ public class GameScreen extends JFrame {
 			tileFill(bt, TILETYPE.TRAPPED);
 		}
 		
+	}
+	public void updateLabels(Player player) {
+		lblPlayer.setText("Player  -  "+player.getName());
+		lblPoints.setText("Score  -  "+player.getScore());
 	}
 	protected void playerTileFill(JButton jButton) {
 		Image iconLogo = new ImageIcon("resources/Images/playerTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);

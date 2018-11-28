@@ -11,7 +11,10 @@ import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
 import br.ufsc.FasutopOlympics.view.QuestionScreen;
+import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
+import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
+import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 
 public class Map{
 	
@@ -67,12 +70,23 @@ public class Map{
 			}
 		}
 		counter = size*size;
+		tiles[0][0].setTileType(TILETYPE.BLANK);
+		tiles[6][6].setTileType(TILETYPE.BLANK);
+		
 	}
 	public void connect(String name) {
-		this.localPlayer.setName(name);
-		nActor.conectar(name, "localhost");
-		gameScreen = new GameScreen(localPlayer);
-
+		try {
+			this.localPlayer.setName(name);
+			nActor.conectar(name, "localhost");
+			gameScreen = new GameScreen(localPlayer);
+		}catch(NaoPossivelConectarException e11) {
+			gameScreen.informMessage(e11.getMessage());
+		} catch (JahConectadoException e) {
+			gameScreen.informMessage(e.getMessage());
+		} catch (ArquivoMultiplayerException e) {
+			gameScreen.informMessage(e.getMessage());
+		}
+		
 	}
 	
 	public void disconnect() throws NaoConectadoException {
@@ -187,7 +201,6 @@ public class Map{
 		}
 		//TODO repaint(); ??????
 	}
-
 	
 	private void answer() {
 		// TODO answering stuffs must end with following line:

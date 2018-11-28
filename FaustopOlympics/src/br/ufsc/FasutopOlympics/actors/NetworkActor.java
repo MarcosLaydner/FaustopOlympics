@@ -25,7 +25,7 @@ public class NetworkActor implements OuvidorProxy {
 		proxy.addOuvinte(this);
 	}
 	
-	public String conectar(String nome, String servidor) {
+	public String conectar(String nome, String servidor) throws JahConectadoException, NaoPossivelConectarException, ArquivoMultiplayerException{
 		try {
 			proxy.conectar(servidor, nome);
 		} catch (JahConectadoException e) {
