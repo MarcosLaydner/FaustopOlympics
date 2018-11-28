@@ -177,9 +177,22 @@ public class Map{
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
 		this.setGameScreen(dto.getGameScreen());
+		if (dto.isRemotePassed()) {
+			answer();
+		}
 		//TODO repaint(); ??????
 	}
 
+	
+	private void answer() {
+		// TODO answering stuffs must end with following line:
+		this.remotePassed = false;		
+	}
+	
+	public boolean treatMove(int j, int k) {
+		// TODO Auto-generated method stub
+		return move(j, k);
+	}
 	
 	//-----------------------=Getters & Setters=---------------------------\\
 	
@@ -234,11 +247,6 @@ public class Map{
 	public static Map getInstance() {
 		// TODO Auto-generated method stub
 		return instance;
-	}
-
-	public boolean treatMove(int j, int k) {
-		// TODO Auto-generated method stub
-		return move(j, k);
 	}
 
 	public GameScreen getGameScreen() {
