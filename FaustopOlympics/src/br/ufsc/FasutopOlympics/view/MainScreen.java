@@ -92,6 +92,8 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Map.getInstance().start();
+					setVisible(false);
+					Map.getInstance().showGameScreen();
 				} catch (NaoConectadoException e1) {
 					informMessage("You are not connected to the server.");
 				}

@@ -33,13 +33,13 @@ public class Map{
 		tiles = new Tile[size][size];
 		this.remotePassed = false;
 		mainScreen = new MainScreen();
-		gameScreen = new GameScreen();
 		this.localPlayer = new Player();
 	}
 	public void showMainMenu() {
 		mainScreen.setVisible(true);
 	}
 	public void showGameScreen() {
+		gameScreen = new GameScreen(localPlayer);
 		gameScreen.setVisible(true);
 	}
 	

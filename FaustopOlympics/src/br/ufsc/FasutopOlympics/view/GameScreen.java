@@ -24,6 +24,8 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
+import java.awt.Window;
+
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -103,18 +105,18 @@ public class GameScreen extends JFrame {
 	public void trapmode() {
 		trapmode = true;
 	}
-	public GameScreen() {
+	public GameScreen(Player localPlayer) {
 		setPreferredSize(new Dimension(550, 550));
 		getContentPane().setBackground(Color.DARK_GRAY);
 		addAction();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
-		JLabel lblPlayer = new JLabel("Player");
+		JLabel lblPlayer = new JLabel("Player  -  " + localPlayer.getName());
 		lblPlayer.setForeground(Color.GREEN);
 		lblPlayer.setBounds(114, 33, 165, 25);
 		getContentPane().add(lblPlayer);
 		
-		JLabel lblPoints = new JLabel("Points");
+		JLabel lblPoints = new JLabel("Score  -  " + localPlayer.getScore());
 		lblPoints.setForeground(Color.GREEN);
 		lblPoints.setBounds(302, 33, 100, 25);
 		getContentPane().add(lblPoints);
