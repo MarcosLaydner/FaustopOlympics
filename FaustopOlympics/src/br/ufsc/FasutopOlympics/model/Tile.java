@@ -1,8 +1,9 @@
 package br.ufsc.FasutopOlympics.model;
 
 import br.ufsc.FasutopOlympics.utilities.QuestionGenerator;
+import br.ufsc.inf.leobr.cliente.Jogada;
 
-public class Tile {
+public class Tile implements Jogada{
 	
 	private int line;
 	private int column;

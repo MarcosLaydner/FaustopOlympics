@@ -1,6 +1,8 @@
 package br.ufsc.FasutopOlympics.model;
 
-public class Question {
+import br.ufsc.inf.leobr.cliente.Jogada;
+
+public class Question implements Jogada{
 	
 	private String question;
 	private String opt1;

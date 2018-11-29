@@ -228,7 +228,7 @@ public class Map{
 		this.setRemotePlayer(dto.getPlayer2());
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
-		playerActor.setGameScreen(dto.getGameScreen());
+//		playerActor.setGameScreen(dto.getGameScreen());
 		if (dto.isRemotePassed()) {
 			answer();
 		}
