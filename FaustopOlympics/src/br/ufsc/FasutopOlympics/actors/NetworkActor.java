@@ -50,7 +50,7 @@ public class NetworkActor implements OuvidorProxy {
 	}
 	
 	public void enviarJogada(Map map) {
-		MapDto dto = new MapDto(map.getRemotePlayer(), map.getLocalPlayer(), map.getTiles(), map.isRemotePassed());
+		MapDto dto = new MapDto(map.getRemotePlayer(), map.getLocalPlayer(), map.getTiles(), map.isRemotePassed(), map.getCounter());
 		try {
 			proxy.enviaJogada(dto);
 			myTurn = false;

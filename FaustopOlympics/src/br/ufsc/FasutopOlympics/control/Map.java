@@ -35,6 +35,7 @@ public class Map{
 		tiles = new Tile[size][size];
 		this.remotePassed = false;
 		this.localPlayer = new Player();
+		this.remotePlayer = new Player();
 		playerActor = PlayerActor.getInstance();
 	}
 	public NetworkActor getNActor() {
@@ -229,8 +230,10 @@ public class Map{
 		this.setRemotePlayer(dto.getPlayer2());
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
+		this.setCounter(dto.getCounter());
 		if (dto.isRemotePassed()) {
-			answer();
+			QuestionScreen qsc = new QuestionScreen(tiles[remotePlayer.getY()][remotePlayer.getX()].getQuestion());
+			qsc.setVisible(true);
 		}
 		this.playerActor.getGameScreen().setVisible(true);
 		this.playerActor.getGameScreen().repaint();

@@ -57,7 +57,6 @@ public class PlayerActor {
 	}
 	public void prepareMatch() {
 		Map.getInstance().prepareMatch();
-		
 	}
 	public String winCheck() {
 		return Map.getInstance().winCheck();
