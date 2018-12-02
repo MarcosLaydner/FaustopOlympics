@@ -60,19 +60,15 @@ public class PlayerActor {
 		
 	}
 	public String winCheck() {
-		// TODO Auto-generated method stub
 		return Map.getInstance().winCheck();
 	}
 	public boolean sendMove(int j, int i) {
-		// TODO Auto-generated method stub
 		return Map.getInstance().sendMove(j, i);
 	}
 	public Tile[][] getTiles() {
-		// TODO Auto-generated method stub
 		return Map.getInstance().getTiles();
 	}
 	public Player getLocalPlayer() {
-		// TODO Auto-generated method stub
 		return Map.getInstance().getLocalPlayer();
 	}
 	public void newGameScreen(Player localPlayer) {
