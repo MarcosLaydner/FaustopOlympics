@@ -440,7 +440,6 @@ public class GameScreen extends JFrame {
 			repaint();
 		}
 		playerTileFill(pos1);
-		playerTileFill(pos36);
 		updateLabels(PlayerActor.getInstance().getLocalPlayer());
 		
 

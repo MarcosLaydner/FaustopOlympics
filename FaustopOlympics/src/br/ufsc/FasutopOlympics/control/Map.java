@@ -37,6 +37,7 @@ public class Map{
 		this.localPlayer = new Player();
 		this.remotePlayer = new Player();
 		playerActor = PlayerActor.getInstance();
+		counter = 36;
 	}
 	public NetworkActor getNActor() {
 		return this.nActor;
@@ -121,11 +122,9 @@ public class Map{
 	}
 
 	public boolean sendMove(int y, int x) {
-		if (nActor.isMyTurn() && validatePos(x, y) ) {
+		if (validatePos(x, y) ) {
 			boolean ok = move(y, x);
-			if (ok) {
-				nActor.enviarJogada(this);
-			}
+			
 			return ok;
 		} else {
 			return false;
