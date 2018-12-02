@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.ufsc.FasutopOlympics.actors.PlayerActor;
 import br.ufsc.FasutopOlympics.control.Map;
+import br.ufsc.FasutopOlympics.model.Player;
 import br.ufsc.FasutopOlympics.model.Question;
 
 import javax.swing.JLabel;
@@ -26,6 +28,8 @@ public class QuestionScreen extends JFrame {
 	private JPanel contentPane;
 	private String selec = "empty";
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private boolean passed = false;
+	private Player player;
 
 	/**
 	 * Launch the application.
@@ -35,7 +39,8 @@ public class QuestionScreen extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public QuestionScreen(Question question) {
+	public QuestionScreen(Question question, Player currentPlayer) {
+		player = currentPlayer;
 		String opt1 = question.getOpt1();
 		String opt2 = question.getOpt2();
 		String opt3 = question.getOpt3();
@@ -61,7 +66,7 @@ public class QuestionScreen extends JFrame {
 		
 		JLabel lblQuestion = new JLabel(quest);
 		lblQuestion.setForeground(Color.GREEN);
-		lblQuestion.setBounds(43, 71, 327, 14);
+		lblQuestion.setBounds(43, 71, 2000, 42);
 		contentPane.add(lblQuestion);
 		
 		JRadioButton rdbtnOption = new JRadioButton(opt1);
@@ -107,7 +112,11 @@ public class QuestionScreen extends JFrame {
 				}
 				if(!selec.equals("empty")) {
 					if(selec.equals(ans)) {
-						Map.getInstance().getLocalPlayer().addPoints(100);
+						if(!passed) {
+							PlayerActor.getInstance().getOtherPlayer().addPoints(100);
+						}else {
+							PlayerActor.getInstance().getCurrentPlayer().addPoints(100);
+						}
 						informMessage("Correct! You got 100 Points!");
 						setVisible(false);
 						
@@ -127,11 +136,19 @@ public class QuestionScreen extends JFrame {
 		btnConfirm.setBounds(116, 227, 89, 23);
 		contentPane.add(btnConfirm);
 		
+		
 		JButton btnPass = new JButton("Pass");
 		btnPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(0 == JOptionPane.showConfirmDialog(getContentPane(), "Are you Sure?", "Passar", JOptionPane.YES_NO_OPTION)) { 
-					setVisible(false);
+				if(0 == JOptionPane.showConfirmDialog(getContentPane(), "Are you Sure?", "Passar", JOptionPane.YES_NO_OPTION)) {
+					if(!passed) {
+						JOptionPane.showMessageDialog(null, ""+PlayerActor.getInstance().getCurrentPlayer().getName() +"! It's your turn now!", "Passed", JOptionPane.WARNING_MESSAGE);
+						passed = true;
+					}else {
+						JOptionPane.showMessageDialog(null, "Y'all are quitters!", "Passed", JOptionPane.WARNING_MESSAGE);
+						setVisible(false);
+					}
+					
 				}
 			}
 		});

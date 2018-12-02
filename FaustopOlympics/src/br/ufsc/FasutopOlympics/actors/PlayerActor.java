@@ -88,5 +88,10 @@ public class PlayerActor {
 		
 	}
 
+	public Player getOtherPlayer() {
+		return Map.getInstance().getOtherPlayer();
+		
+	}
+
 
 }

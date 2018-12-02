@@ -36,6 +36,7 @@ public class Map{
 		this.remotePassed = false;
 		this.localPlayer = new Player();
 		this.remotePlayer = new Player();
+		this.remotePlayer.setName("Player 2");
 		playerActor = PlayerActor.getInstance();
 		counter = 36;
 	}
@@ -71,7 +72,7 @@ public class Map{
 			}
 		}
 		tiles[0][0].setTileType(TILETYPE.BLANK);
-		
+		tiles[6][6].setTileType(TILETYPE.BLANK);
 	}
 	public void connect(String name) {
 		try {
@@ -127,7 +128,9 @@ public class Map{
 	}
 	public String winCheck() {
 		if(currentPlayer.getScore() >= 500) {
-			return "Player "+currentPlayer.getName() + " is the Winner with "+currentPlayer.getScore() + " Points!!!";
+			return "Player '"+currentPlayer.getName() + "' is the Winner with "+currentPlayer.getScore() + " Points!!!";
+		}else if(getOtherPlayer().getScore() >= 500) {
+			return "Player '"+getOtherPlayer().getName() + "' is the Winner with "+getOtherPlayer().getScore() + " Points!!!";
 		}else {
 			return null;
 		}
@@ -136,6 +139,11 @@ public class Map{
 	private boolean validatePos(int x, int y) {
 		int px = currentPlayer.getX();
 		int py = currentPlayer.getY();
+		int opx = getOtherPlayer().getX();
+		int opy = getOtherPlayer().getY();
+		if(y == opy && x == opx) {
+			return false;
+		}
 		if(x == px-1 || x == px+1) {
 			if(y < py+2 && y > py-2) {
 				return true;
@@ -149,8 +157,6 @@ public class Map{
 	}
 	private boolean move(int y, int x) {
 		Tile selected = tiles[y][x];
-		int playerx = currentPlayer.getX();
-		int playery = currentPlayer.getY();
 		
 		if (selected.isValid() && !localPlayer.isParalyzed()) {
 			//TODO set occupied or invalid?
@@ -162,7 +168,7 @@ public class Map{
 					playerActor.getGameScreen().informMessage("PRIZE!! You got 50 points!");
 					break;
 				case QUESTION:
-					QuestionScreen qsc = new QuestionScreen(selected.getQuestion());
+					QuestionScreen qsc = new QuestionScreen(selected.getQuestion(), currentPlayer);
 					qsc.setVisible(true);
 					break;
 				default:
@@ -175,6 +181,13 @@ public class Map{
 			return true;
 		} else {
 			return false;
+		}
+	}
+	public Player getOtherPlayer() {
+		if (currentPlayer.equals(localPlayer)) {
+			return remotePlayer;
+		} else  {
+			return localPlayer;
 		}
 	}
 	private void moveTo(Tile selected) {
@@ -205,10 +218,10 @@ public class Map{
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
 		this.setCounter(dto.getCounter());
-		if (dto.isRemotePassed()) {
-			QuestionScreen qsc = new QuestionScreen(tiles[remotePlayer.getY()][remotePlayer.getX()].getQuestion());
-			qsc.setVisible(true);
-		}
+//		if (dto.isRemotePassed()) {
+//			QuestionScreen qsc = new QuestionScreen(tiles[remotePlayer.getY()][remotePlayer.getX()].getQuestion());
+//			qsc.setVisible(true);
+//		}
 		this.playerActor.getGameScreen().setVisible(true);
 		this.playerActor.getGameScreen().repaint();
 	}
@@ -278,6 +291,10 @@ public class Map{
 		localPlayer.setScore(0);
 		localPlayer.setX(0);
 		localPlayer.setY(0);
+		remotePlayer.setScore(0);
+		remotePlayer.setX(6);
+		remotePlayer.setY(6);
+		
 		playerActor.newGameScreen(localPlayer);
 		playerActor.showGameScreen();
 		

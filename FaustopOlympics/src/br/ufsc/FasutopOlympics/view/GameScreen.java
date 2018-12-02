@@ -437,7 +437,6 @@ public class GameScreen extends JFrame {
 		updateLabels(PlayerActor.getInstance().getLocalPlayer());
 		
 		playerTileFill(pos36);
-		updateLabels(PlayerActor.getInstance().getRemotePlayer());
 
 	}
 	protected void buttonAction(JButton bt, int i, int j) {
@@ -453,22 +452,23 @@ public class GameScreen extends JFrame {
 					}else {
 						playerTileFill(bt);
 						tileFill(butts[matrixToLine(playerx, playery)], tiles[playery][playerx].getTileType()) ;
-						updateLabels(localp);
+						updateLabels(PlayerActor.getInstance().getCurrentPlayer());
 						repaint();
 						
 					}
 			}else {
 				informMessage(PlayerActor.getInstance().winCheck());
-				PlayerActor.getInstance().prepareMatch();
+				PlayerActor.getInstance().restart();
+				setVisible(false);
 			}
 		}else {
 			tiles[j][i].setTrapped(true);
-			tileFill(bt, TILETYPE.TRAPPED);
+			informMessage("Trap Laid!");
 		}
 		
 	}
 	public void updateLabels(Player player) {
-		lblPlayer.setText("Player  -  "+player.getName() + "  Position: "+ player.getX() + ", "+player.getY());
+		lblPlayer.setText("Player  -  "+player.getName());
 		lblPoints.setText("Score  -  "+player.getScore());
 	}
 	protected void playerTileFill(JButton jButton) {
