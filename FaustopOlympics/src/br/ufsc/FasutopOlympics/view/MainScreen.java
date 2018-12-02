@@ -93,7 +93,6 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 
-					PlayerActor.getInstance().getRemotePlayer();
 					PlayerActor.getInstance().start();
 					setVisible(false);
 					PlayerActor.getInstance().showGameScreen();

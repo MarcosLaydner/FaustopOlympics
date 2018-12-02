@@ -131,7 +131,6 @@ public class QuestionScreen extends JFrame {
 		btnPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(0 == JOptionPane.showConfirmDialog(getContentPane(), "Are you Sure?", "Passar", JOptionPane.YES_NO_OPTION)) { 
-					Map.getInstance().pass();
 					setVisible(false);
 				}
 			}

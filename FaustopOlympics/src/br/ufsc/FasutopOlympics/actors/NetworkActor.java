@@ -43,7 +43,7 @@ public class NetworkActor implements OuvidorProxy {
 	
 	public void iniciarPartidaRede() throws NaoConectadoException {
 		try {
-			proxy.iniciarPartida(2);
+			proxy.iniciarPartida(1);
 		} catch (NaoConectadoException e) {
 			throw new NaoConectadoException();
 		}
@@ -70,10 +70,7 @@ public class NetworkActor implements OuvidorProxy {
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
 		if(posicao == 1) {
-			System.out.println("Iniciando nova partida com o id de jogador " + posicao);
-			setMyTurn(true);
-			map.setLocalPlayer(new Player(1));
-			map.setRemotePlayer(new Player(2));
+			
 			map.prepareMatch();
 		}
 		

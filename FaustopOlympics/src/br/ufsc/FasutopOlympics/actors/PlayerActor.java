@@ -2,6 +2,7 @@ package br.ufsc.FasutopOlympics.actors;
 
 import br.ufsc.FasutopOlympics.control.Map;
 import br.ufsc.FasutopOlympics.model.Player;
+import br.ufsc.FasutopOlympics.model.TILETYPE;
 import br.ufsc.FasutopOlympics.model.Tile;
 import br.ufsc.FasutopOlympics.view.GameScreen;
 import br.ufsc.FasutopOlympics.view.MainScreen;
@@ -78,4 +79,9 @@ public class PlayerActor {
 		return Map.getInstance().getRemotePlayer();
 				
 	}
+	public void movedTile(int playery, int playerx) {
+		gameScreen.tileFill(gameScreen.getButtonByPosition(playerx, playery), TILETYPE.BLANK);
+		
+	}
+
 }

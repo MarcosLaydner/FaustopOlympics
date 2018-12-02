@@ -35,7 +35,6 @@ public class Map{
 		tiles = new Tile[size][size];
 		this.remotePassed = false;
 		this.localPlayer = new Player();
-		this.remotePlayer = new Player();
 		playerActor = PlayerActor.getInstance();
 		counter = 36;
 	}
@@ -54,7 +53,7 @@ public class Map{
 			for(int x = 0; x < size; x++) {
 				
 				Tile novo = new Tile(y, x);
-				int def = ThreadLocalRandom.current().nextInt(1,7);
+				int def = ThreadLocalRandom.current().nextInt(1,4);
 				switch (def) {
 					case 1: 
 						novo.setTileType(TILETYPE.QUESTION);
@@ -74,9 +73,7 @@ public class Map{
 				tiles[y][x] = novo;
 			}
 		}
-		counter = size*size;
 		tiles[0][0].setTileType(TILETYPE.BLANK);
-		tiles[5][5].setTileType(TILETYPE.BLANK);
 		
 	}
 	public void connect(String name) {
@@ -108,15 +105,12 @@ public class Map{
 		placePlayers();
 		generateTiles();
 		//TODO updateFront?
-		sendMove(localPlayer.getY(), localPlayer.getX());
 	}
 
 	private void placePlayers() {
 		localPlayer.setY(0);
 		localPlayer.setX(0);
 		//TODO send to front, probably check to see if it's valid
-		remotePlayer.setY(6);
-		remotePlayer.setX(6);
 		//TODO same thing
 		
 	}
@@ -133,16 +127,6 @@ public class Map{
 	public String winCheck() {
 		if(localPlayer.getScore() >= 500) {
 			return "Player "+localPlayer.getName() + " is the Winner with "+localPlayer.getScore() + " Points!!!";
-		}else if(remotePlayer.getScore() >= 500){
-			return "Player "+remotePlayer.getName() + " is the Winner with "+remotePlayer.getScore() + " Points!!!";
-		}else if(counter == 0) {
-			if(localPlayer.getScore() > remotePlayer.getScore()) {
-				return "Player "+localPlayer.getName() + " is the Winner with "+localPlayer.getScore() + " Points!!!";
-			} else if(localPlayer.getScore() < remotePlayer.getScore()) {
-				return "Player "+remotePlayer.getName() + " is the Winner with "+remotePlayer.getScore() + " Points!!!";
-			} else {
-				return "It's a tie!!! the winner is Faustop!";
-			}
 		}else {
 			return null;
 		}
@@ -164,19 +148,14 @@ public class Map{
 	}
 	private boolean move(int y, int x) {
 		Tile selected = tiles[y][x];
+		int playerx = localPlayer.getX();
+		int playery = localPlayer.getY();
 		
 		if (selected.isValid() && !localPlayer.isParalyzed()) {
 			//TODO set occupied or invalid?
 			TILETYPE type = selected.getTileType();
 			
 			switch(type) {
-				case TRAPPED:
-					localPlayer.setParalyzed(true);
-					break;
-				case PRIZE_TRAP:
-					playerActor.getGameScreen().trapmode();
-					playerActor.getGameScreen().informMessage("You received a trap! Please select where the trap will be placed");
-					break;
 				case PRIZE_BONUS:
 					localPlayer.addPoints(50);//seila quantos pontos bixo
 					playerActor.getGameScreen().informMessage("PRIZE!! You got 50 points!");
@@ -188,6 +167,10 @@ public class Map{
 				default:
 					break;
 			}
+			playerActor.movedTile(playery, playerx);
+			localPlayer.setX(x);
+			localPlayer.setY(y);
+
 			moveTo(selected);
 			return true;
 		} else {
@@ -204,13 +187,7 @@ public class Map{
 	//Not sure about this one
 	
 	
-	public void pass() {
-		//TODO this one will be hard. Or will it? - think i already got it
-		// my ideia is: have a boolean "passed" here in map, so you can pass this information through the server
-		this.remotePassed = true;
-		nActor.enviarJogada(this);
-		this.remotePassed = false;
-	}
+
 	
 	public void trapTile(int y, int x) {
 		Tile selected = tiles[y][x];
@@ -224,7 +201,6 @@ public class Map{
 	}
 
 	public void receiveMove(MapDto dto) {
-		this.setLocalPlayer(dto.getPlayer1());
 		this.setRemotePlayer(dto.getPlayer2());
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
@@ -237,11 +213,7 @@ public class Map{
 		this.playerActor.getGameScreen().repaint();
 	}
 	
-	private void answer() {
-		// TODO answering stuffs must end with following line:
-		this.remotePassed = false;		
-	}
-	
+
 
 	
 	//-----------------------=Getters & Setters=---------------------------\\
@@ -250,9 +222,7 @@ public class Map{
 		return localPlayer;
 	}
 
-	public void setLocalPlayer(Player player1) {
-		this.localPlayer = player1;
-	}
+
 
 	public Player getRemotePlayer() {
 		return remotePlayer;

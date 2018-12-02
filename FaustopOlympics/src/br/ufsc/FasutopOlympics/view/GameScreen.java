@@ -69,7 +69,7 @@ public class GameScreen extends JFrame {
 	private JButton pos35;
 	private JButton pos36;
 	private JPanel contentPane;
-	private JButton[] butts;
+	public JButton[] butts;
 	
 	private boolean trapmode = false;
 	/**
@@ -452,7 +452,7 @@ public class GameScreen extends JFrame {
 		int playery = localp.getY();
 		if (!trapmode) {
 			if(PlayerActor.getInstance().winCheck() == null) {
-				if(!PlayerActor.getInstance().sendMove(j,i)) {
+				if(!PlayerActor.getInstance().sendMove(i,j)) {
 					informMessage("Could not move to selected Tile!");
 							
 					}else {
@@ -473,7 +473,7 @@ public class GameScreen extends JFrame {
 		
 	}
 	public void updateLabels(Player player) {
-		lblPlayer.setText("Player  -  "+player.getName());
+		lblPlayer.setText("Player  -  "+player.getName() + "  Position: "+ player.getX() + ", "+player.getY());
 		lblPoints.setText("Score  -  "+player.getScore());
 	}
 	protected void playerTileFill(JButton jButton) {
@@ -546,5 +546,9 @@ public class GameScreen extends JFrame {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	public JButton getButtonByPosition(int playerx, int playery) {
+		// TODO Auto-generated method stub
+		return butts[matrixToLine(playerx, playery)];
 	}
 }
