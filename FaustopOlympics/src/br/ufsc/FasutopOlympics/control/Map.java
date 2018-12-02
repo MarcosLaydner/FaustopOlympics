@@ -26,7 +26,7 @@ public class Map{
 	private int counter;
 	private boolean remotePassed;
 	private PlayerActor playerActor;
-
+	private Player currentPlayer;
 	private static final Map instance = new Map();
 
 	public Map() {
@@ -35,6 +35,7 @@ public class Map{
 		tiles = new Tile[size][size];
 		this.remotePassed = false;
 		this.localPlayer = new Player();
+		this.remotePlayer = new Player();
 		playerActor = PlayerActor.getInstance();
 		counter = 36;
 	}
@@ -106,31 +107,35 @@ public class Map{
 	private void placePlayers() {
 		localPlayer.setY(0);
 		localPlayer.setX(0);
-		//TODO send to front, probably check to see if it's valid
-		//TODO same thing
-		
+		remotePlayer.setX(5);
+		remotePlayer.setY(5);
+		currentPlayer = localPlayer;
 	}
 
 	public boolean sendMove(int y, int x) {
 		if (validatePos(x, y) ) {
 			boolean ok = move(y, x);
-			
+			if (currentPlayer.equals(localPlayer)) {
+				currentPlayer = remotePlayer;
+			} else if (currentPlayer.equals(remotePlayer)) {
+				currentPlayer = localPlayer;
+			}
 			return ok;
 		} else {
 			return false;
 		}
 	}
 	public String winCheck() {
-		if(localPlayer.getScore() >= 500) {
-			return "Player "+localPlayer.getName() + " is the Winner with "+localPlayer.getScore() + " Points!!!";
+		if(currentPlayer.getScore() >= 500) {
+			return "Player "+currentPlayer.getName() + " is the Winner with "+currentPlayer.getScore() + " Points!!!";
 		}else {
 			return null;
 		}
 	}
 	
 	private boolean validatePos(int x, int y) {
-		int px = localPlayer.getX();
-		int py = localPlayer.getY();
+		int px = currentPlayer.getX();
+		int py = currentPlayer.getY();
 		if(x == px-1 || x == px+1) {
 			if(y < py+2 && y > py-2) {
 				return true;
@@ -144,8 +149,8 @@ public class Map{
 	}
 	private boolean move(int y, int x) {
 		Tile selected = tiles[y][x];
-		int playerx = localPlayer.getX();
-		int playery = localPlayer.getY();
+		int playerx = currentPlayer.getX();
+		int playery = currentPlayer.getY();
 		
 		if (selected.isValid() && !localPlayer.isParalyzed()) {
 			//TODO set occupied or invalid?
@@ -153,7 +158,7 @@ public class Map{
 			
 			switch(type) {
 				case PRIZE_BONUS:
-					localPlayer.addPoints(50);//seila quantos pontos bixo
+					currentPlayer.addPoints(50);//seila quantos pontos bixo
 					playerActor.getGameScreen().informMessage("PRIZE!! You got 50 points!");
 					break;
 				case QUESTION:
@@ -163,8 +168,8 @@ public class Map{
 				default:
 					break;
 			}
-			localPlayer.setX(x);
-			localPlayer.setY(y);
+			currentPlayer.setX(x);
+			currentPlayer.setY(y);
 
 			moveTo(selected);
 			return true;
