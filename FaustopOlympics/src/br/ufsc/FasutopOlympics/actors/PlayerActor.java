@@ -22,6 +22,10 @@ public class PlayerActor {
 	public PlayerActor() {
 		mainScreen = new MainScreen();
 	}
+	
+	public Player getCurrentPlayer() {
+		return Map.getInstance().getCurrentPlayer();
+	} 
 	public void showMainMenu() {
 		this.mainScreen.setVisible(true);
 	}

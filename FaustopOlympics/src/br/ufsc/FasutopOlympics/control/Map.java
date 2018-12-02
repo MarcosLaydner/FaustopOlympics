@@ -222,7 +222,9 @@ public class Map{
 		return localPlayer;
 	}
 
-
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
 
 	public Player getRemotePlayer() {
 		return remotePlayer;
