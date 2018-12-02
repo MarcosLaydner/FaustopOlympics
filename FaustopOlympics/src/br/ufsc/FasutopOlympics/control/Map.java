@@ -59,10 +59,6 @@ public class Map{
 						novo.setTileType(TILETYPE.QUESTION);
 						novo.generateQuestion();
 						break;
-					case 2:
-						novo.setTileType(TILETYPE.OBSTACLE);
-						novo.setValid(false);
-						break;
 					case 3:
 						novo.setPrize();
 						break;
@@ -139,7 +135,7 @@ public class Map{
 			if(y < py+2 && y > py-2) {
 				return true;
 			}
-		} else if(y == px-1 || y == px+1) {
+		} else if(y == py-1 || y == py+1) {
 			if(x < px+2 && x > px-2) {
 				return true;
 			}
@@ -270,6 +266,14 @@ public class Map{
 
 	public GameScreen getGameScreen() {
 		return this.playerActor.getGameScreen();
+	}
+	public void restart() {
+		localPlayer.setScore(0);
+		localPlayer.setX(0);
+		localPlayer.setY(0);
+		playerActor.newGameScreen(localPlayer);
+		playerActor.showGameScreen();
+		
 	}
 	
 

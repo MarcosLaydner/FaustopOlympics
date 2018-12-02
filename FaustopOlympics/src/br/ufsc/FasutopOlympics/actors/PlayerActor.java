@@ -79,6 +79,10 @@ public class PlayerActor {
 		return Map.getInstance().getRemotePlayer();
 				
 	}
+	public void restart() {
+		Map.getInstance().restart();
+		
+	}
 
 
 }

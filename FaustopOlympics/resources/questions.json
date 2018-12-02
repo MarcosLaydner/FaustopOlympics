@@ -2,5 +2,33 @@
   "opt1":"Spain",
   "opt2":"Canda",
   "opt3":"Narnia",
-  "opt4":"Netherlands"
-  "rightopt":"Netherlands"}]
+  "opt4":"Netherlands",
+  "rightopt":"Netherlands"}
+  ,
+  {"question":"What has hands but can’t pick up anything?",
+  "opt1":"African Swallow",
+  "opt2":"Death",
+  "opt3":"A clock",
+  "opt4":"Vecna",
+  "rightopt":"A clock"}
+  ,
+  {"question":"Everyone has me but nobody can lose me. What am I?",
+  "opt1":"A shadow",
+  "opt2":"Bepis",
+  "opt3":"Dementia",
+  "opt4":"European Swallow",
+  "rightopt":"A shadow"}
+  ,
+  {"question":"Tear one off and scratch my head; what was once red is black instead. What am I?",
+  "opt1":"A shadow",
+  "opt2":"A match",
+  "opt3":"The Pope",
+  "opt4":"A knight",
+  "rightopt":"A match"}
+  ,
+  {"question":"What is the music of life?",
+  "opt1":"A tamborine orchestra",
+  "opt2":"Silence, my brother",
+  "opt3":"All Star by Smash Mouth",
+  "opt4":"i don't know, I'm deaf",
+  "rightopt":"Silence, my brother"}]

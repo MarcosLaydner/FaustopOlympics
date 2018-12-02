@@ -391,22 +391,16 @@ public class GameScreen extends JFrame {
 		mnMenu.setForeground(Color.CYAN);
 		mnMenu.setBackground(Color.BLACK);
 		menuBar.add(mnMenu);
-		mntmReconnect = new JMenuItem("Reconnect");
-		mntmReconnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
-		mntmReconnect.setForeground(Color.CYAN);
-		mntmReconnect.setBackground(Color.BLACK);
-		mnMenu.add(mntmReconnect);
 		
 	
 		
 		mntmRestart = new JMenuItem("Restart");
 		mntmRestart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(1 != JOptionPane.showConfirmDialog(getContentPane(), "Are you sure?")) {
+					PlayerActor.getInstance().restart();
+					setVisible(false);
+				}
 			}
 		});
 		mntmRestart.setForeground(Color.CYAN);
@@ -457,7 +451,7 @@ public class GameScreen extends JFrame {
 							
 					}else {
 						playerTileFill(bt);
-						tileFill(butts[matrixToLine(playery, playerx)], tiles[playery][playerx].getTileType()) ;
+						tileFill(butts[matrixToLine(playerx, playery)], tiles[playery][playerx].getTileType()) ;
 						updateLabels(localp);
 						repaint();
 						
