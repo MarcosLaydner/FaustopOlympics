@@ -131,7 +131,6 @@ public class Map{
 			return false;
 		}
 	}
-	
 	public String winCheck() {
 		if(localPlayer.getScore() >= 500) {
 			return "Player "+localPlayer.getName() + " is the Winner with "+localPlayer.getScore() + " Points!!!";
@@ -230,14 +229,9 @@ public class Map{
 		this.setRemotePlayer(dto.getPlayer2());
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
-		this.setCounter(dto.getCounter());
 		if (dto.isRemotePassed()) {
-			QuestionScreen qsc = new QuestionScreen(tiles[remotePlayer.getY()][remotePlayer.getX()].getQuestion());
-			qsc.setVisible(true);
+			answer();
 		}
-		this.playerActor.getGameScreen().setVisible(true);
-		this.playerActor.getGameScreen().repaint();
-		
 		//TODO repaint(); ??????
 	}
 	

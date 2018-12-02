@@ -443,9 +443,8 @@ public class GameScreen extends JFrame {
 		playerTileFill(pos36);
 		updateLabels(PlayerActor.getInstance().getLocalPlayer());
 		
-		
 
-		
+
 	}
 	protected void buttonAction(JButton bt, int i, int j) {
 		Player localp = PlayerActor.getInstance().getLocalPlayer();

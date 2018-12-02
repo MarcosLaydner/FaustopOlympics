@@ -74,4 +74,8 @@ public class PlayerActor {
 		this.gameScreen = new GameScreen(localPlayer);
 		
 	}
+	public Player getRemotePlayer() {
+		return Map.getInstance().getRemotePlayer();
+				
+	}
 }

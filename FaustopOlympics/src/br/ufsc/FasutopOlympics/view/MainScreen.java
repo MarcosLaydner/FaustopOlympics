@@ -92,11 +92,15 @@ public class MainScreen extends JFrame {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+
+					PlayerActor.getInstance().getRemotePlayer();
 					PlayerActor.getInstance().start();
 					setVisible(false);
 					PlayerActor.getInstance().showGameScreen();
 				} catch (NaoConectadoException e1) {
 					informMessage("You are not connected to the server.");
+				}catch (NullPointerException e4) {
+					informMessage("Please wait for another Player!");
 				}
 				
 			}
@@ -120,15 +124,6 @@ public class MainScreen extends JFrame {
 		});
 		btnDisconnect.setBounds(164, 120, 108, 23);
 		contentPane.add(btnDisconnect);
-		
-		JButton btnGamescr = new JButton("GameScr");
-		btnGamescr.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PlayerActor.getInstance().showGameScreen();
-			}
-		});
-		btnGamescr.setBounds(335, 52, 89, 23);
-		contentPane.add(btnGamescr);
 		
 
 	}
