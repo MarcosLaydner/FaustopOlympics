@@ -167,7 +167,6 @@ public class Map{
 				default:
 					break;
 			}
-			playerActor.movedTile(playery, playerx);
 			localPlayer.setX(x);
 			localPlayer.setY(y);
 

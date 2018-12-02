@@ -79,9 +79,6 @@ public class PlayerActor {
 		return Map.getInstance().getRemotePlayer();
 				
 	}
-	public void movedTile(int playery, int playerx) {
-		gameScreen.tileFill(gameScreen.getButtonByPosition(playerx, playery), TILETYPE.BLANK);
-		
-	}
+
 
 }
