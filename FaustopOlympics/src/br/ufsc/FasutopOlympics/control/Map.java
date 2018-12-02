@@ -229,10 +229,13 @@ public class Map{
 		this.setRemotePlayer(dto.getPlayer2());
 		this.setTiles(dto.getTiles());
 		this.setRemotePassed(dto.isRemotePassed());
+		this.setCounter(dto.getCounter());
 		if (dto.isRemotePassed()) {
-			answer();
+			QuestionScreen qsc = new QuestionScreen(tiles[remotePlayer.getY()][remotePlayer.getX()].getQuestion());
+			qsc.setVisible(true);
 		}
-		//TODO repaint(); ??????
+		this.playerActor.getGameScreen().setVisible(true);
+		this.playerActor.getGameScreen().repaint();
 	}
 	
 	private void answer() {
