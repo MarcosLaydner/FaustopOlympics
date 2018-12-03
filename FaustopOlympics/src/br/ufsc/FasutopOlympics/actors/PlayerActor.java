@@ -40,6 +40,9 @@ public class PlayerActor {
 		Map.getInstance().connect(name);
 		
 	}
+	public void trapmode() {
+		gameScreen.trapmode();
+	}
 	public GameScreen getGameScreen() {
 		return this.gameScreen;
 	}

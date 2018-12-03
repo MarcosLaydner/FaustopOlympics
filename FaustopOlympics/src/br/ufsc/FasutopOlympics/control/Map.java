@@ -61,7 +61,14 @@ public class Map{
 						novo.setTileType(TILETYPE.QUESTION);
 						novo.generateQuestion();
 						break;
+					case 2:
+						if(Math.random() > 0.5) {
+							novo.setTileType(TILETYPE.PRIZE_TRAP);
+						} else
+							novo.setTileType(TILETYPE.BLANK);
+						break;
 					case 3:
+						novo.setTileType(TILETYPE.PRIZE_BONUS);
 						novo.setPrize();
 						break;
 					default:
@@ -72,6 +79,7 @@ public class Map{
 			}
 		}
 		tiles[0][0].setTileType(TILETYPE.BLANK);
+		tiles[0][1].setTileType(TILETYPE.PRIZE_TRAP);
 		tiles[6][6].setTileType(TILETYPE.BLANK);
 	}
 	public void connect(String name) {
@@ -158,18 +166,25 @@ public class Map{
 	private boolean move(int y, int x) {
 		Tile selected = tiles[y][x];
 		
-		if (selected.isValid() && !localPlayer.isParalyzed()) {
+		if (selected.isValid() && !currentPlayer.isParalyzed()) {
 			//TODO set occupied or invalid?
 			TILETYPE type = selected.getTileType();
 			
 			switch(type) {
 				case PRIZE_BONUS:
-					currentPlayer.addPoints(50);//seila quantos pontos bixo
+					currentPlayer.addPoints(50);
 					playerActor.getGameScreen().informMessage("PRIZE!! You got 50 points!");
 					break;
 				case QUESTION:
 					QuestionScreen qsc = new QuestionScreen(selected.getQuestion(), currentPlayer);
 					qsc.setVisible(true);
+					break;
+				case PRIZE_TRAP:
+					playerActor.getGameScreen().informMessage("Place your Trap!");
+					playerActor.trapmode();
+					break;
+				case TRAPPED:
+					currentPlayer.setParalyzed(true);
 					break;
 				default:
 					break;
@@ -180,6 +195,8 @@ public class Map{
 			moveTo(selected);
 			return true;
 		} else {
+			playerActor.getGameScreen().informMessage("You got Paralyzed son!");
+			currentPlayer.setParalyzed(false);
 			return false;
 		}
 	}
@@ -202,14 +219,16 @@ public class Map{
 	
 
 	
-	public void trapTile(int y, int x) {
+	public boolean trapTile(int y, int x) {
 		Tile selected = tiles[y][x];
 		
 		if (!selected.getTileType().equals(TILETYPE.OBSTACLE)) {
 			selected.setTrapped(true);
 			selected.setTileType(TILETYPE.TRAPPED);
+			return true;
 		} else {
 			playerActor.getGameScreen().informMessage("Could not trap Selected Tile");
+			return false;
 		}
 	}
 

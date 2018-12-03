@@ -462,8 +462,9 @@ public class GameScreen extends JFrame {
 				setVisible(false);
 			}
 		}else {
-			tiles[j][i].setTrapped(true);
+			tiles[i][j].setTileType(TILETYPE.TRAPPED);
 			informMessage("Trap Laid!");
+			trapmode = false;
 		}
 		
 	}
@@ -500,9 +501,6 @@ public class GameScreen extends JFrame {
 			break;
 		case OBSTACLE:
 			iconLogo = new ImageIcon("resources/Images/obstacleTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
-			break;
-		case TRAPPED:
-			iconLogo = new ImageIcon("resources/Images/trappedTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
 			break;
 		default:
 			iconLogo = new ImageIcon("resources/Images/blankTile.png").getImage().getScaledInstance(pos1.getWidth(), pos1.getHeight(), Image.SCALE_SMOOTH);
