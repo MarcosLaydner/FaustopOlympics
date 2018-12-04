@@ -196,6 +196,7 @@ public class Map{
 			return true;
 		} else {
 			playerActor.getGameScreen().informMessage("You got Paralyzed son!");
+			playerActor.getGameScreen().updateLabels(getOtherPlayer());
 			currentPlayer.setParalyzed(false);
 			return false;
 		}
@@ -313,7 +314,7 @@ public class Map{
 		remotePlayer.setScore(0);
 		remotePlayer.setX(6);
 		remotePlayer.setY(6);
-		
+		this.currentPlayer = localPlayer;
 		playerActor.newGameScreen(localPlayer);
 		playerActor.showGameScreen();
 		
