@@ -79,7 +79,6 @@ public class Map{
 			}
 		}
 		tiles[0][0].setTileType(TILETYPE.BLANK);
-		tiles[0][1].setTileType(TILETYPE.PRIZE_TRAP);
 		tiles[6][6].setTileType(TILETYPE.BLANK);
 	}
 	public void connect(String name) {
