@@ -79,7 +79,7 @@ public class Map{
 			}
 		}
 		tiles[0][0].setTileType(TILETYPE.BLANK);
-		tiles[6][6].setTileType(TILETYPE.BLANK);
+		tiles[5][5].setTileType(TILETYPE.BLANK);
 	}
 	public void connect(String name) {
 		try {
@@ -316,7 +316,7 @@ public class Map{
 		this.currentPlayer = localPlayer;
 		playerActor.newGameScreen(localPlayer);
 		playerActor.showGameScreen();
-		
+		prepareMatch();
 	}
 	
 
